@@ -4,6 +4,7 @@
 <meta name="theme-color" content="#1A0845"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-title" content="IID"/>
+<link rel="manifest" href="./manifest.json">
 <title>The Infinite Improbability Drive</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
