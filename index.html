@@ -14,7 +14,7 @@ input,select,textarea{font-family:inherit;border:1px solid #C4C0E0;border-radius
 textarea{resize:vertical}
 .B{border-radius:8px;padding:8px 16px;font-size:14px;font-weight:600;border:2px solid transparent}
 .Bs{padding:4px 10px;font-size:12px;border-radius:8px;font-weight:600;border:2px solid transparent}
-.Bp{background:#2D1B69;color:#fff}.Bd{background:#c0392b;color:#fff}.Bo{background:transparent;color:#2D1B69;border-color:#2D1B69}.Bg{background:#27ae60;color:#fff}.Bgo{background:#C9A227;color:#fff}
+.Bp{background:#2D1B69;color:#fff}.Bd{background:#c0392b;color:#fff}.Bo{background:transparent;color:#2D1B69;border-color:#2D1B69}.Bg{background:#27ae60;color:#fff}
 .C{background:#fff;border-radius:12px;padding:16px;box-shadow:0 2px 8px rgba(45,27,105,.1);margin-bottom:12px;border:1px solid #E0DCFF}
 .badge{border-radius:20px;padding:2px 8px;font-size:11px;font-weight:700;margin-left:4px;display:inline-block;color:#fff}
 .M{position:fixed;inset:0;background:rgba(10,5,30,.65);z-index:1000;display:flex;align-items:center;justify-content:center;padding:16px}
@@ -38,7 +38,7 @@ textarea{resize:vertical}
 .prog-card{background:#fff;border-radius:12px;padding:12px;box-shadow:0 2px 8px rgba(45,27,105,.1);cursor:pointer;border-left:4px solid #2D1B69;margin-bottom:8px;border:1px solid #E0DCFF}
 .iss-row{display:flex;gap:8px;padding:10px;border-radius:10px;background:#fff;box-shadow:0 1px 4px rgba(45,27,105,.08);margin-bottom:7px;align-items:flex-start;border:1px solid #E0DCFF}
 .ai-out{background:#F8F6FF;border:1px solid #C4B8FF;border-radius:10px;padding:14px;font-size:13px;line-height:1.7;white-space:pre-wrap;color:#1a1a2e;margin-top:10px}
-.quarter-tag{background:#2D1B69;color:#C9A227;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:700}
+.cal-row{display:flex;justify-content:space-between;align-items:center;padding:7px 10px;border-radius:8px;margin-bottom:5px;font-size:12px}
 </style></head><body>
 <div id="root"></div>
 <script>
@@ -55,161 +55,204 @@ const P="#2D1B69",GOLD="#C9A227",TD=new Date().toISOString().slice(0,10),
   CATS=["Leadership Strategy","PARS/Performance","Learning","Team Management","Operations","Policy","Advisory","Communications","Reporting","Admin","Personal","Other"],
   FY_CONTEXT=`EPA Performance Management Team (PMT) context:
 - Branch manages performance management, leader development, and learning for EPA.
-- Key programs: ASLP, SLP, SUTS, EPAdapt, Coaching Skills for Leaders, Career Catalysts, Stepping Stones, NTNA Yr2, Leadership Progression Model, Learning Analytics, My Career Plan.
+- Key programs: ASLP (8.8/10 pilot score, 13 supervisors, Aug 2026 rollout), SLP, SUTS (9.1/10, 81/100 participants), EPAdapt, Coaching Skills for Leaders, Career Catalysts, Stepping Stones, NTNA Yr2, Leadership Progression Model, Learning Analytics, My Career Plan.
 - FY26 Strategic Goals: (1) Build Supervisory Capacity for Accountability & Results, (2) Empower Employees to Articulate Results, (3) Data-Driven Learning & Performance Culture, (4) Organizational Resilience Through Integrated Development.
 - OPM June 2025 compliance requirements now in effect (implemented by Oct 1, 2026).
+- Guiding principles: We are advisors NOT content creators. More autonomy, less bureaucracy. You are more than a rating.
 - Writing style: results-oriented, specific impacts, federal HR conventions.`;
 
 async function hashPw(pw){const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(pw));return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');}
 
 // ─── Default Data ─────────────────────────────────────────────────────────────
 const DTEAM=[
-  {id:"tm1",name:"Michael",role:"",tasks:[],kudos:["Resolved 2-year eOPF issue ⭐"],concerns:[],notes:[],oneOnes:[]},
-  {id:"tm2",name:"Mel",role:"",tasks:[],kudos:[],concerns:[],notes:[],oneOnes:[]},
+  {id:"tm1",name:"Michael",role:"",tasks:[{id:"mt1",title:"Connect with Rachel/Eric for adult learner/LED suggestions on workshops",done:0},{id:"mt2",title:"Revise ICMS pages and SharePoint",done:0},{id:"mt3",title:"Coordinate with OPM on USAP auto-calculating FY27 ratings",done:0},{id:"mt4",title:"Pilot for Quarterly Review 3",done:0}],kudos:["Resolved 2-year eOPF issue ⭐","Created Critical Elements Workshop"],concerns:[],notes:[],oneOnes:[]},
+  {id:"tm2",name:"Mel",role:"",tasks:[{id:"mt5",title:"Critical Elements Workshop – consolidate with Michael's into one EPA version",done:0}],kudos:[],concerns:[],notes:[],oneOnes:[]},
   {id:"tm3",name:"Kent",role:"",tasks:[],kudos:[],concerns:[],notes:[],oneOnes:[]},
-  {id:"tm4",name:"Jennifer",role:"ELP",tasks:[],kudos:["Volunteered to lead 360s for SLP pilot ⭐"],concerns:["Coaching poster questions pending","ELP training & learning opportunities"],notes:[],oneOnes:[]},
-  {id:"tm5",name:"Diana",role:"",tasks:[],kudos:[],concerns:[],notes:[],oneOnes:[]},
-  {id:"tm6",name:"Rachel",role:"",tasks:[],kudos:["OFA SUTS Presentation (3/7) ⭐"],concerns:["Review slides; log accomplishments"],notes:[],oneOnes:[]},
-  {id:"tm7",name:"Eric",role:"",tasks:[],kudos:[],concerns:["Pull SLP & ASLP reports (reactionary + 3-month metrics)"],notes:[],oneOnes:[]}
+  {id:"tm4",name:"Jennifer",role:"ELP",tasks:[{id:"mt6",title:"Coaching poster questions follow-up",done:0},{id:"mt7",title:"Copilot testing – serve as tester",done:0}],kudos:["Volunteered to lead 360s for SLP pilot ⭐"],concerns:["Coaching poster questions pending","ELP training & learning opportunities"],notes:[],oneOnes:[]},
+  {id:"tm5",name:"Diana",role:"",tasks:[{id:"mt8",title:"FedTalent – load 2 SCORM packages from Ryan for user testing",done:0}],kudos:[],concerns:["FedTalent SCORM packages from Ryan – load for user testing"],notes:[],oneOnes:[]},
+  {id:"tm6",name:"Rachel",role:"",tasks:[{id:"mt9",title:"Review SUTS slides; log accomplishments",done:0}],kudos:["OFA SUTS Presentation (3/7) ⭐ – 9.1/10 satisfaction, 81/100 participants","Great job at All Hands presentation ⭐"],concerns:["Log all accomplishments for record"],notes:[],oneOnes:[]},
+  {id:"tm7",name:"Eric",role:"",tasks:[{id:"mt10",title:"Pull SLP & ASLP reports – reactionary + 3-month application metrics",done:0}],kudos:[],concerns:["Pull SLP & ASLP reports (reactionary + 3-month metrics)"],notes:[],oneOnes:[]}
 ];
 
 const DPROGS=[
-  {id:"pg1",name:"ASLP",fullName:"Advanced Successful Leaders Program",status:"Review",description:"Review & modify content to focus on performance culture vs USAP mechanics. Revise for feedback.",tasks:[],notes:[],metrics:{}},
-  {id:"pg2",name:"SLP",fullName:"Successful Leaders Program",status:"Review",description:"Review content; revise for feedback. Get reports from Eric. Shift from USAP mechanics to fundamental leadership capabilities.",tasks:[],notes:[],metrics:{}},
-  {id:"pg3",name:"SUTS",fullName:"Stepping Up to Supervision",status:"Review",description:"Mandatory first step for all new supervisors within 60 days. Embed performance management essentials into first 30 days. Complete deliverables before April 1.",tasks:[{id:"su1",title:"Complete SUTS deliverables before April 1",done:0,dueDate:"2026-04-01"},{id:"su2",title:"Embed performance management essentials into first 30 days module",done:0,dueDate:"2026-04-01"}],notes:[],metrics:{}},
+  {id:"pg1",name:"ASLP",fullName:"Advanced Successful Leaders Program",status:"Review",description:"Piloted Feb 24-26 with 13 supervisors. Score: 8.8/10. Agency-wide rollout August 2026. Mandatory 3-year supervisory training after initial SLP. Review & modify content to focus on performance culture vs USAP mechanics.",tasks:[{id:"al1",title:"Revise content based on pilot feedback",done:0},{id:"al2",title:"Plan August 2026 agency-wide rollout",done:0}],notes:[],metrics:{reactionary:"8.8",participants:"13"}},
+  {id:"pg2",name:"SLP",fullName:"Successful Leaders Program",status:"Review",description:"Review content; revise for feedback. Get reports from Eric. Shift from USAP mechanics to fundamental leadership capabilities.",tasks:[{id:"sl1",title:"Revise SLP content for feedback",done:0},{id:"sl2",title:"Get reactionary + 3-month reports from Eric",done:0}],notes:[],metrics:{}},
+  {id:"pg3",name:"SUTS",fullName:"Stepping Up to Supervision",status:"Active",description:"Session 1 complete: 9.1/10 satisfaction, 81/100 participants. Mandatory first step for all new supervisors within 60 days. Embed performance management essentials. Complete deliverables before April 1.",tasks:[{id:"su1",title:"Complete SUTS deliverables before April 1",done:0,dueDate:"2026-04-01"},{id:"su2",title:"Session 2: May 5,7,12,14 – 11:30am-4:30pm – prep",done:0,dueDate:"2026-05-01"},{id:"su3",title:"SUTS report – compile and share",done:0}],notes:[],metrics:{reactionary:"9.1",participants:"81"}},
   {id:"pg4",name:"Stepping Stones",fullName:"Stepping Stones",status:"Needs Relaunch",description:"Need to bring back – create relaunch plan. Rachel involved in EQ changes.",tasks:[{id:"ss1",title:"Create relaunch plan",done:0},{id:"ss2",title:"Rachel – Stepping Stones EQ changes",done:0}],notes:[],metrics:{}},
-  {id:"pg5",name:"EPAdapt",fullName:"EPAdapt",status:"Active",description:"59% facilitator attrition rate (primarily due to DRP). Accelerate certification. Implement retention measures.",tasks:[{id:"ep1",title:"Accelerate new facilitator certification",done:0},{id:"ep2",title:"Implement facilitator retention measures (recognition, development, workload)",done:0}],notes:[],metrics:{}},
-  {id:"pg6",name:"Coaching Skills",fullName:"Coaching Skills for Leaders",status:"Active",description:"Building coaching capabilities for performance conversations. Add coaching blurb into mid-year training/memo.",tasks:[{id:"ck1",title:"Add coaching blurb into mid-year memo",done:0}],notes:[],metrics:{}},
-  {id:"pg7",name:"Career Catalysts",fullName:"Career Catalyst Mini-Sessions",status:"Active",description:"Monthly mini-sessions for EPA-wide learning. Q2 theme: Influencing (Mar) – building buy-in and commitment.",tasks:[{id:"cc1",title:"Create 2-page resumes for Career Catalysts",done:0,dueDate:"2026-04-01"},{id:"cc2",title:"March session: Influencing – building buy-in behind performance expectations",done:0,dueDate:"2026-03-31"},{id:"cc3",title:"April session: Data Literacy – evidence-based decision making",done:0,dueDate:"2026-04-30"}],notes:[],metrics:{}},
-  {id:"pg8",name:"NTNA Yr 2",fullName:"National Training Needs Assessment Year 2",status:"Active",description:"Year 2 of 3-year NTNA cycle. Passive data collection from EPA Univ/CMS, FedTalent, Skillsoft, SF182. FEVS trend analysis (Q1,Q10,Q11,Q53). Focus groups with TO/TCs and 120+ employees across regions/offices.",tasks:[
-    {id:"nt1",title:"Revise focus group questions to align with current strategic priorities",done:0,dueDate:"2026-01-31"},
-    {id:"nt2",title:"FEVS partnership coordination – coordinate Q1,Q10,Q11,Q53 trend analysis with Employee Engagement Team",done:0,dueDate:"2026-02-28"},
-    {id:"nt3",title:"Q2 Passive Data collection – aggregate EPA Univ/CMS, FedTalent, Skillsoft, SF182",done:0,dueDate:"2026-03-31"},
-    {id:"nt4",title:"Q2 Passive Data Report – compile, analyze, internal review",done:0,dueDate:"2026-03-31"},
-    {id:"nt5",title:"Focus group logistics planning – schedule sessions, identify facilitators, prepare materials",done:0,dueDate:"2026-03-31"},
-    {id:"nt6",title:"Focus group facilitator training on protocols",done:0,dueDate:"2026-04-30"}
-  ],notes:[],metrics:{}},
-  {id:"pg9",name:"LPM",fullName:"Leadership Progression Model",status:"Active",description:"Finalize correlation mapping between existing learning offerings and leadership progression levels. Validate alignment of SLP, SUTS, Coaching Skills, etc. Pilot with 1-2 offices/regions before EPA-wide rollout.",tasks:[
-    {id:"lp1",title:"Finalize correlation mapping of existing offerings to progression levels",done:0,dueDate:"2026-01-31"},
-    {id:"lp2",title:"Refine self-assessment tool based on validation feedback",done:0,dueDate:"2026-02-28"},
-    {id:"lp3",title:"Identify 1-2 offices/regions for pilot implementation",done:0,dueDate:"2026-03-31"},
-    {id:"lp4",title:"Pilot preparation – infrastructure, communication materials",done:0,dueDate:"2026-04-30"},
-    {id:"lp5",title:"Pilot soft launch with select office/region",done:0,dueDate:"2026-05-31"}
-  ],notes:[],metrics:{}},
-  {id:"pg10",name:"Lrn Analytics",fullName:"Learning Analytics Infrastructure",status:"Active",description:"Establish Learning Analytics Team with defined roles. Train on methodologies, data collection protocols, analysis techniques. Build real-time dashboard for learning KPIs agency-wide.",tasks:[
-    {id:"la1",title:"Establish Learning Analytics Team – define roles, responsibilities, charter",done:0,dueDate:"2026-01-31"},
-    {id:"la2",title:"Analytics team training – methodologies, data collection, analysis techniques (Jan–Mar)",done:0,dueDate:"2026-03-31"},
-    {id:"la3",title:"Design TO/TC resources – workshops, videos, tools for training officers",done:0,dueDate:"2026-03-31"},
-    {id:"la4",title:"Build real-time dashboard for learning performance indicators",done:0,dueDate:"2026-06-30"}
-  ],notes:[],metrics:{}},
-  {id:"pg11",name:"My Career Plan",fullName:"My Career Plan Enhancement",status:"Planning",description:"Position as primary individual development planning tool based on employee passions and agency goals. Connect to Leadership Progression Model. Integrate with performance conversations and quarterly reviews.",tasks:[
-    {id:"mc1",title:"Connect learning recommendations to Leadership Progression Model levels",done:0,dueDate:""},
-    {id:"mc2",title:"Test automated recommendations with pilot groups",done:0,dueDate:"2026-06-30"},
-    {id:"mc3",title:"Develop templates and guidance for career development discussions",done:0,dueDate:""}
-  ],notes:[],metrics:{}}
+  {id:"pg5",name:"EPAdapt",fullName:"EPAdapt",status:"Active",description:"59% facilitator attrition rate (primarily due to DRP). Mini-sessions Tue/Wed/Thu 12:30-12:45pm; Wed 4:30pm. Focus: presence, intentionality, adaptability.",tasks:[{id:"ep1",title:"Accelerate new facilitator certification",done:0},{id:"ep2",title:"Implement facilitator retention measures",done:0}],notes:[],metrics:{}},
+  {id:"pg6",name:"Coaching Skills",fullName:"Coaching Skills for Leaders",status:"Active",description:"Supervisors/managers + acting supervisors. Sessions: Jul 21-23, Sep 15-17. Add coaching blurb into mid-year training/memo.",tasks:[{id:"ck1",title:"Add coaching blurb into mid-year training",done:0},{id:"ck2",title:"Add coaching plug into mid-year memo",done:0},{id:"ck3",title:"Krysti briefing – coaching program overview: OCHCO resources, budget/WCF, challenges",done:0}],notes:[],metrics:{}},
+  {id:"pg7",name:"Career Catalysts",fullName:"Career Catalyst Mini-Sessions",status:"Active",description:"Monthly EPA-wide mini-sessions. March: Influencing. April: Data Literacy.",tasks:[{id:"cc1",title:"Create 2-page resumes for Career Catalysts",done:0,dueDate:"2026-04-01"},{id:"cc2",title:"March session: Influencing – building buy-in behind performance expectations",done:0,dueDate:"2026-03-31"},{id:"cc3",title:"April session: Data Literacy – evidence-based decision making",done:0,dueDate:"2026-04-30"}],notes:[],metrics:{}},
+  {id:"pg8",name:"NTNA Yr 2",fullName:"National Training Needs Assessment Year 2",status:"Active",description:"Year 2 of 3-year NTNA cycle. Passive data collection from EPA Univ/CMS, FedTalent, Skillsoft, SF182. FEVS trend analysis (Q1,Q10,Q11,Q53). Focus groups with 120+ employees.",tasks:[{id:"nt3",title:"Q2 Passive Data collection – aggregate all sources",done:0,dueDate:"2026-03-31"},{id:"nt4",title:"Q2 Passive Data Report – compile, analyze, review",done:0,dueDate:"2026-03-31"},{id:"nt5",title:"Focus group logistics planning",done:0,dueDate:"2026-03-31"},{id:"nt6",title:"Focus group facilitator training",done:0,dueDate:"2026-04-30"}],notes:[],metrics:{}},
+  {id:"pg9",name:"LPM",fullName:"Leadership Progression Model",status:"Active",description:"Finalize correlation mapping. Pilot with 1-2 offices/regions. Aspiring Executives in Motion – remove ECQ.",tasks:[{id:"lp3",title:"Identify 1-2 offices/regions for pilot",done:0,dueDate:"2026-03-31"},{id:"lp4",title:"Pilot preparation – infrastructure, comms",done:0,dueDate:"2026-04-30"},{id:"lp5",title:"Aspiring Executives in Motion – remove ECQ",done:0}],notes:[],metrics:{}},
+  {id:"pg10",name:"Lrn Analytics",fullName:"Learning Analytics Infrastructure",status:"Active",description:"Establish Learning Analytics Team. Train on methodologies. Build real-time dashboard. L&D evaluation plan with Ray's team – read draft and prep team.",tasks:[{id:"la2",title:"Analytics team training – Jan–Mar",done:0,dueDate:"2026-03-31"},{id:"la3",title:"Design TO/TC resources",done:0,dueDate:"2026-03-31"},{id:"la4",title:"Build real-time dashboard",done:0,dueDate:"2026-06-30"},{id:"la5",title:"L&D evaluation plan – read draft and prep team with Ray",done:0}],notes:[],metrics:{}},
+  {id:"pg11",name:"My Career Plan",fullName:"My Career Plan Enhancement",status:"Planning",description:"Primary individual development planning tool. Connect to LPM. Integrate with performance conversations.",tasks:[{id:"mc2",title:"Test automated recommendations with pilot groups",done:0,dueDate:"2026-06-30"},{id:"mc3",title:"Develop templates for career development discussions",done:0}],notes:[],metrics:{}}
 ];
 
 const DISSUES=[
-  {id:"is1",area:"SF182",issue:"SF182s general",status:"Open",notes:"",created:TD},
-  {id:"is2",area:"SF182",issue:"SF182 & BAPS app",status:"Open",notes:"Process changes being implemented by Ray's team",created:TD},
-  {id:"is3",area:"Training",issue:"Mandatory training",status:"Open",notes:"Paige focused on how long it takes",created:TD},
-  {id:"is4",area:"Personnel",issue:"Me",status:"Open",notes:"",created:TD},
-  {id:"is5",area:"PMT",issue:"eOPF duplicates",status:"Open",notes:"",created:TD},
-  {id:"is6",area:"PMT",issue:"Templates reverted – USAP admins (OLEM)",status:"In Progress",notes:"Monitoring",created:TD}
+  {id:"is1",area:"SF182",issue:"SF182 & BAPS app",status:"Open",notes:"Process changes being implemented by Ray's team",created:TD},
+  {id:"is2",area:"Training",issue:"Mandatory training – seat time too long (Paige)",status:"Open",notes:"Streamlining sent to SMEs 3/13 – awaiting responses. FY27 if feasible, FY28 required.",created:TD},
+  {id:"is3",area:"Personnel",issue:"Me",status:"Open",notes:"",created:TD},
+  {id:"is4",area:"PMT",issue:"eOPF duplicates",status:"Open",notes:"",created:TD},
+  {id:"is5",area:"PMT",issue:"Templates reverted – USAP admins (OLEM)",status:"In Progress",notes:"Monitoring",created:TD},
+  {id:"is6",area:"SF182",issue:"EO Compliance Form threshold discrepancy – $5k vs $3,500",status:"Open",notes:"Landing page says $5k, RTP says $3,500; purchase card may require for all transactions",created:TD},
+  {id:"is7",area:"PMT",issue:"PMT performance calendar outdated",status:"Open",notes:"Update for EOs/OPM guidance, USAP plans, new check-in cadence, OFA references, CE requirements",created:TD},
+  {id:"is8",area:"Systems",issue:"LLMP contract expiring end of Aug/Sep 2026",status:"Open",notes:"Kendall's group NOT taking over yet – needs WCF board approval. Jason recompeting for FY27 – verify status. Stay quiet with program coordinators.",created:TD},
+  {id:"is9",area:"Systems",issue:"Percipio SSO – username/password disabled; mobile access affected",status:"In Progress",notes:"SSO/PIV only now. Need to communicate to users.",created:TD},
+  {id:"is10",area:"Training",issue:"Insider Threat course blocked – no budget for contractor; no Articulate access",status:"Open",notes:"Lesson 1 Slide 7 change needed. Paul Kudarauskas/Emily Levering owners.",created:TD}
 ];
 
 const DCONTACTS=[
-  {id:"cn1",name:"Jason Gumbs",org:"OECA-OPMO-BFMD",context:"LLMP – Percipio SSO/PIV card login"},
-  {id:"cn2",name:"Jennifer",org:"ELP",context:"Training, coaching, learning opportunities; coaching poster questions"},
-  {id:"cn3",name:"Claire",org:"ELP",context:"Training, coaching, learning opportunities"},
-  {id:"cn4",name:"Rachel",org:"",context:"OFA Meeting March 5; SUTS presentation review (3/7)"},
+  {id:"cn1",name:"Jason Gumbs",org:"OECA-OPMO-BFMD",context:"LLMP – Percipio SSO/PIV card login. Jason recompeting LLMP contract for FY27 – reach out to verify status."},
+  {id:"cn2",name:"Jennifer",org:"ELP",context:"Training, coaching, learning opportunities; coaching poster questions; Copilot tester"},
+  {id:"cn3",name:"Claire",org:"ELP",context:"Training, coaching, learning opportunities; USAP ISA/MOU review"},
+  {id:"cn4",name:"Rachel",org:"",context:"OFA Meeting March 5; SUTS presentation (3/7); log accomplishments"},
   {id:"cn5",name:"Jill",org:"",context:"Engagement; Facilitator Network handoff"},
   {id:"cn6",name:"Krisheena",org:"PMT",context:"Add to April 7 FLAG meeting"},
-  {id:"cn7",name:"Liz",org:"PMT",context:"Add to April 7 FLAG meeting"},
+  {id:"cn7",name:"Liz",org:"PMT",context:"Add to April 7 FLAG meeting; requested info on coaching program value & costs"},
   {id:"cn8",name:"Terance",org:"PMO",context:"SF182 dispersion process conversation"},
   {id:"cn9",name:"Angela",org:"PMO",context:"SF182 dispersion process conversation"},
   {id:"cn10",name:"Linsey",org:"PMO",context:"SF182 dispersion process conversation"},
   {id:"cn11",name:"Pam/Christen",org:"PMO",context:"SF182 dispersion process conversation"},
-  {id:"cn12",name:"Ray",org:"",context:"SF182 – implementing process changes"},
-  {id:"cn13",name:"Sonia",org:"OSCPP",context:"EPA calendar setup; needs action plan"},
+  {id:"cn12",name:"Ray",org:"",context:"SF182 process changes; L&D evaluation plan – read draft and prep team"},
+  {id:"cn13",name:"Sonia",org:"OSCPP",context:"EPA calendar setup for performance & leadership; calendar for PDB"},
   {id:"cn14",name:"Brown",org:"",context:"Confirm dates/times (TWF)"},
   {id:"cn15",name:"Alexis",org:"",context:"Change management coordination"},
   {id:"cn16",name:"Jenny Campbell",org:"",context:"Writing for Results – teach people how to write"},
   {id:"cn17",name:"Paige",org:"",context:"Mandatory Training – focused on how long it takes"},
-  {id:"cn18",name:"Eric",org:"PMT",context:"Pull SLP & ASLP reports (reactionary + 3-month application metrics)"}
+  {id:"cn18",name:"Eric",org:"PMT",context:"Pull SLP & ASLP reports (reactionary + 3-month application metrics)"},
+  {id:"cn19",name:"Kyle Barja",org:"DOI/FedTalent",context:"EDP integration contact – EDP for SES in FedTalent"},
+  {id:"cn20",name:"Krysti",org:"",context:"Coaching program briefing – OCHCO resources, budget/WCF allocation, challenges/needs/recommendations"},
+  {id:"cn21",name:"Ryan",org:"IT",context:"Percipio SSO POC; FedTalent – sent 2 SCORM packages to Diana for user testing"},
+  {id:"cn22",name:"Pamela McIntyre",org:"IT",context:"Percipio access testing"},
+  {id:"cn23",name:"Cindy",org:"",context:"Midyear planning, Division Comms, SLP/ASLP"},
+  {id:"cn24",name:"Kendall",org:"",context:"LLMP – needs historical participation numbers to figure out costs; send mentoring program justification"},
+  {id:"cn25",name:"Michael",org:"PMT",context:"eOPF, ICMS, Critical Elements Workshop, USAP/OPM auto-rating"},
+  {id:"cn26",name:"Mel",org:"PMT",context:"Critical Elements Workshop – consolidate with Michael's"},
+  {id:"cn27",name:"Diana",org:"PMT",context:"FedTalent SCORM packages"},
+  {id:"cn28",name:"Anita Heller",org:"SkillSoft",context:"Insider Threat, No Fear courses – anita.heller@skillsoft.com"},
+  {id:"cn29",name:"Arya Sachdeva",org:"SkillSoft",context:"Harassment Prevention – arya.sachdeva@skillsoft.com. Using 2 PDB credits."}
 ];
 
 const DREC=[
   {id:"rc1",title:"Submit & approve timecards; manage maxiflex",category:"Admin",freq:"Biweekly",lastDone:""},
-  {id:"rc2",title:"Monitor PARS recurring cycle",category:"Admin",freq:"Weekly",lastDone:""},
-  {id:"rc3",title:"PMT Policy – ongoing review/updates",category:"Policy",freq:"Ongoing",lastDone:""},
+  {id:"rc2",title:"Monitor PARS recurring cycle (FY25 data due first Thursday monthly)",category:"Admin",freq:"Weekly",lastDone:""},
+  {id:"rc3",title:"PMT policy review",category:"Policy",freq:"Ongoing",lastDone:""},
   {id:"rc4",title:"Bi-weekly 1:1s with all team members",category:"Team Management",freq:"Biweekly",lastDone:""},
   {id:"rc5",title:"Active checking – log what felt good/didn't",category:"Personal",freq:"Daily",lastDone:""},
-  {id:"rc6",title:"Self-care – grounding, redirection, slowing down, stay curious",category:"Personal",freq:"Daily",lastDone:""}
+  {id:"rc6",title:"Self-care – grounding, redirection, slowing down, stay curious",category:"Personal",freq:"Daily",lastDone:""},
+  {id:"rc7",title:"IPP approvals, SF182 approvals, CSA transfers, ratifications (Cynthia on-demand)",category:"Admin",freq:"Ongoing",lastDone:""}
 ];
 
 const DTASKS=[
-  // Leadership Strategy
+  // ── Before April 1 ──
   {id:"tk1",title:"LDR Performance Strategy – finalize",priority:"High",category:"Leadership Strategy",status:"Not Started",dueDate:"2026-04-01",notes:"",created:TD},
   {id:"tk2",title:"Generic EDP template + job aid (how to fill in)",priority:"High",category:"Leadership Strategy",status:"Not Started",dueDate:"2026-04-01",notes:"",created:TD},
   {id:"tk3",title:"Review PPT & memo for quarterly reviews",priority:"High",category:"Leadership Strategy",status:"Not Started",dueDate:"2026-04-01",notes:"",created:TD},
   {id:"tk4",title:"Capture successes – document hard lift wins; SF182 forward progress",priority:"High",category:"Leadership Strategy",status:"Not Started",dueDate:"2026-04-01",notes:"",created:TD},
   {id:"tk5",title:"Leadership metrics – identify metrics that demonstrate impact",priority:"High",category:"Leadership Strategy",status:"Not Started",dueDate:"2026-04-01",notes:"",created:TD},
-  {id:"tk15",title:"FLAG Presentation – prepare; add Krisheena and Liz",priority:"High",category:"Leadership Strategy",status:"Not Started",dueDate:"2026-04-07",notes:"April 7",created:TD},
-  {id:"tk16",title:"PMT Flag meeting – schedule",priority:"High",category:"Team Management",status:"Not Started",dueDate:"",notes:"",created:TD},
-  {id:"tk20",title:"Performance Leadership Strategy FY27-29 – begin development",priority:"Medium",category:"Leadership Strategy",status:"Not Started",dueDate:"",notes:"",created:TD},
-  // PARS/Performance
-  {id:"tk6",title:"Define 'Distinguished' – language with wiggle room for seasoned judgment",priority:"High",category:"PARS/Performance",status:"Not Started",dueDate:"2026-04-01",notes:"Ensure supervisors can identify who rose to the occasion regardless of assigned number",created:TD},
+  {id:"tk15",title:"FLAG Presentation – prepare; add Krisheena and Liz",priority:"High",category:"Leadership Strategy",status:"Not Started",dueDate:"2026-04-07",notes:"April 7 – PMT LDR flagged",created:TD},
+  {id:"tk_krysti",title:"Krysti briefing – coaching program: OCHCO resources, budget/WCF, challenges",priority:"High",category:"Leadership Strategy",status:"Not Started",dueDate:"2026-04-01",notes:"Schedule briefing",created:TD},
+  {id:"tk_eo",title:"EO – review impacts of visually changed chat; Schedule C policy check (performance & training)",priority:"High",category:"Policy",status:"Not Started",dueDate:"2026-04-01",notes:"",created:TD},
+  // ── PARS/Performance ──
+  {id:"tk6",title:"Define 'Distinguished' – language with wiggle room for seasoned judgment",priority:"High",category:"PARS/Performance",status:"Not Started",dueDate:"2026-04-01",notes:"Supervisors can identify who rose to the occasion regardless of assigned number",created:TD},
   {id:"tk7",title:"Determine comparison level – AA-level, regional, individual; bell curve approach",priority:"High",category:"PARS/Performance",status:"Not Started",dueDate:"2026-04-01",notes:"",created:TD},
   {id:"tk8",title:"Create supervisor language/toolkit for communicating ratings",priority:"High",category:"PARS/Performance",status:"Not Started",dueDate:"2026-04-01",notes:"",created:TD},
-  {id:"tk9",title:"Awards & performance connections – align recognition to performance",priority:"Medium",category:"PARS/Performance",status:"Not Started",dueDate:"",notes:"",created:TD},
+  {id:"tk9",title:"Awards & performance connections – align recognition; AA and regional breakdown",priority:"Medium",category:"PARS/Performance",status:"Not Started",dueDate:"",notes:"",created:TD},
   {id:"tk10",title:"Intrinsic motivation module – 'you are more than a rating'",priority:"Medium",category:"PARS/Performance",status:"Not Started",dueDate:"",notes:"Build culture around recognizing accomplishments beyond numbers",created:TD},
   {id:"tk25",title:"Quarterly reviews – June midyear planning",priority:"Medium",category:"PARS/Performance",status:"Not Started",dueDate:"2026-06-30",notes:"",created:TD},
-  {id:"clo4",title:"Self-assessment template for quarterly reviews based on CE",priority:"Medium",category:"PARS/Performance",status:"Not Started",dueDate:"2026-04-30",notes:"Use AI to help draft; use Claude for this",created:TD},
-  {id:"clo5",title:"Review memo and PPT for quarterly planning",priority:"Medium",category:"PARS/Performance",status:"Not Started",dueDate:"2026-04-30",notes:"PMT priority – from pmt cindy do",created:TD},
-  {id:"clo6",title:"Check on quarterly planning status",priority:"Medium",category:"PARS/Performance",status:"Not Started",dueDate:"",notes:"PMT priority",created:TD},
-  // Operations
-  {id:"tk11",title:"SF182 Dispersion – create comms plan (timing, input/feedback mechanism)",priority:"High",category:"Operations",status:"Not Started",dueDate:"2026-04-01",notes:"Check personnel delegation sections 0.16/0.17",created:TD},
-  {id:"tk12",title:"Talk to PMOs re: SF182 process (Terance, Angela, Linsey, Pam/Christen, OIDA)",priority:"High",category:"Operations",status:"Not Started",dueDate:"2026-04-01",notes:"Frame: 'More autonomy, less bureaucracy'",created:TD},
+  {id:"clo4",title:"Self-assessment template for quarterly reviews based on CE",priority:"Medium",category:"PARS/Performance",status:"Not Started",dueDate:"2026-04-30",notes:"Use Claude to help draft",created:TD},
+  {id:"clo5",title:"Review memo and PPT for quarterly planning",priority:"Medium",category:"PARS/Performance",status:"Not Started",dueDate:"2026-04-30",notes:"",created:TD},
+  {id:"tk_nonexec",title:"Non-executive performance (without OPM COP) – define approach",priority:"Medium",category:"PARS/Performance",status:"Not Started",dueDate:"",notes:"",created:TD},
+  {id:"tk_qsched",title:"Quarterly check-ins – schedule",priority:"Medium",category:"PARS/Performance",status:"Not Started",dueDate:"",notes:"",created:TD},
+  // ── Operations ──
+  {id:"tk11",title:"SF182 Dispersion – create comms plan (timing, input/feedback mechanism)",priority:"High",category:"Operations",status:"Not Started",dueDate:"2026-04-01",notes:"Check personnel delegation sections 0.16/0.17. Frame: 'More autonomy, less bureaucracy'",created:TD},
+  {id:"tk12",title:"Talk to PMOs re: SF182 process (Terance, Angela, Linsey, Pam/Christen, OIDA)",priority:"High",category:"Operations",status:"Not Started",dueDate:"2026-04-01",notes:"Identify program with most training completed",created:TD},
+  {id:"tk_sf182app",title:"SF182 app transfer – transition to Cynthia; figure out dispersion; need BAPS",priority:"High",category:"Operations",status:"Not Started",dueDate:"2026-04-01",notes:"Duties transfer – SF182 app owner",created:TD},
+  {id:"tk_eoform",title:"Clarify EO Compliance Form threshold – $5k vs $3,500 discrepancy",priority:"High",category:"Operations",status:"Not Started",dueDate:"",notes:"Landing page says $5k, RTP says $3,500",created:TD},
+  {id:"tk_llmp",title:"LLMP contract – plan for FY27 next cohort (Oct 2026)",priority:"High",category:"Operations",status:"Not Started",dueDate:"",notes:"Jason recompeting – verify status. Kendall needs historical participation numbers. Stay quiet with coordinators on WCF plan.",created:TD},
   {id:"tk17",title:"Core HCM teams – add to policy and learning teams",priority:"Medium",category:"Operations",status:"Not Started",dueDate:"",notes:"",created:TD},
+  {id:"tk_corehcm",title:"Core HCM doc reviews + superuser group",priority:"Medium",category:"Operations",status:"Not Started",dueDate:"",notes:"",created:TD},
+  {id:"tk_copilot",title:"Copilot testing – with Jennifer as tester",priority:"Medium",category:"Operations",status:"Not Started",dueDate:"",notes:"",created:TD},
   {id:"tk22",title:"SF182 App – develop action plan",priority:"Medium",category:"Operations",status:"Not Started",dueDate:"",notes:"",created:TD},
-  {id:"tk23",title:"Sonia (OSCPP) – define next steps / deliverables",priority:"Medium",category:"Operations",status:"Not Started",dueDate:"",notes:"",created:TD},
-  // Reporting
-  {id:"tk13",title:"SF182 report",priority:"High",category:"Reporting",status:"Not Started",dueDate:"2026-04-01",notes:"",created:TD},
+  {id:"tk23",title:"Sonia (OSCPP) – EPA calendar setup for PDB and performance/leadership",priority:"Medium",category:"Operations",status:"Not Started",dueDate:"",notes:"",created:TD},
+  {id:"tk_diana",title:"Diana – FedTalent: load 2 SCORM packages from Ryan for user testing",priority:"Medium",category:"Operations",status:"Not Started",dueDate:"",notes:"",created:TD},
+  {id:"tk_fedtalent",title:"EDP for SES in FedTalent – advise/consult; contact Kyle Barja (DOI)",priority:"Medium",category:"Advisory",status:"Not Started",dueDate:"",notes:"We are advisors, not content creators",created:TD},
+  {id:"tk_pmtsite",title:"PMT site refresh – update for EOs, OPM guidance, USAP plans, check-in cadence, CE requirements",priority:"High",category:"Operations",status:"Not Started",dueDate:"",notes:"Performance calendar is outdated",created:TD},
+  // ── Policy ──
+  {id:"tk_usapmou",title:"USAP MOU Draft – review questions on pages 3, 5, 8; verify OPM POCs (Attachment 2)",priority:"High",category:"Policy",status:"Not Started",dueDate:"",notes:"",created:TD},
+  {id:"tk_usapisa",title:"USAP Agency System ISA – review comment margin; update/verify OPM POCs",priority:"High",category:"Policy",status:"Not Started",dueDate:"",notes:"",created:TD},
+  {id:"tk20",title:"Performance Leadership Strategy FY27-29 – begin development",priority:"Medium",category:"Leadership Strategy",status:"Not Started",dueDate:"",notes:"",created:TD},
+  // ── Reporting ──
+  {id:"tk13",title:"SF182 report",priority:"High",category:"Reporting",status:"Not Started",dueDate:"2026-04-01",notes:"Volume by period, office, program; processing time; errors/rejections",created:TD},
   {id:"tk14",title:"OPM Mandatory Training report",priority:"High",category:"Reporting",status:"Not Started",dueDate:"2026-04-01",notes:"",created:TD},
-  {id:"clo3",title:"Collect mid-year metrics from all team members",priority:"Medium",category:"Reporting",status:"Not Started",dueDate:"2026-04-30",notes:"",created:TD},
-  // Learning
-  {id:"tk19",title:"Revise SLP & ASLP for feedback",priority:"Medium",category:"Learning",status:"Not Started",dueDate:"",notes:"",created:TD},
-  {id:"clo1",title:"Review ASLP content – focus on performance culture vs USAP mechanics",priority:"High",category:"Learning",status:"In Progress",dueDate:"2026-03-31",notes:"From teaching dates/programs",created:TD},
-  // Team Management
+  {id:"clo3",title:"Collect PMT metrics: # trainings by region/office; hours advising USAP; hours advising performance culture",priority:"Medium",category:"Reporting",status:"Not Started",dueDate:"2026-04-30",notes:"",created:TD},
+  {id:"tk_mtapproval",title:"Mandatory training approvals for FY27",priority:"Medium",category:"Admin",status:"Not Started",dueDate:"",notes:"",created:TD},
+  {id:"tk_mtsop",title:"Mandatory training course requests – create SOP, process, document current status",priority:"High",category:"Operations",status:"Not Started",dueDate:"2026-04-01",notes:"",created:TD},
+  // ── Learning ──
+  {id:"tk19",title:"Revise SLP & ASLP content for feedback",priority:"Medium",category:"Learning",status:"Not Started",dueDate:"",notes:"",created:TD},
+  {id:"clo1",title:"Review ASLP content – focus on performance culture vs USAP mechanics",priority:"High",category:"Learning",status:"In Progress",dueDate:"2026-03-31",notes:"",created:TD},
+  {id:"tk_cew",title:"Critical Elements Workshop – consolidate Michael's and Mel's into one EPA version",priority:"Medium",category:"Learning",status:"Not Started",dueDate:"",notes:"Work with learning team",created:TD},
+  {id:"tk_feedback",title:"Feedback class – develop/deliver",priority:"Medium",category:"Learning",status:"Not Started",dueDate:"",notes:"",created:TD},
+  {id:"tk_wfr",title:"Writing for Results – Jenny Campbell leading",priority:"Medium",category:"Learning",status:"Not Started",dueDate:"",notes:"",created:TD},
+  // ── Team Management ──
+  {id:"tk16",title:"PMT FLAG meeting – schedule",priority:"High",category:"Team Management",status:"Not Started",dueDate:"",notes:"",created:TD},
   {id:"clo2",title:"Rachel – Stepping Stones relaunch and EQ changes",priority:"Medium",category:"Team Management",status:"Not Started",dueDate:"",notes:"",created:TD},
-  // Advisory
-  {id:"tk21",title:"EDP in FedTalent – advise/consult on implementation",priority:"Medium",category:"Advisory",status:"Not Started",dueDate:"",notes:"",created:TD},
-  // Communications
+  {id:"tk_pmtmidyear",title:"PMT mid-year + next quarterly review – same agenda structure",priority:"Medium",category:"Team Management",status:"Not Started",dueDate:"2026-06-30",notes:"",created:TD},
+  // ── Communications ──
   {id:"tk18",title:"Lead Division Comms process",priority:"Medium",category:"Communications",status:"Not Started",dueDate:"",notes:""},
-  {id:"tk24",title:"Review WLPBD comms process workflows",priority:"Medium",category:"Communications",status:"Not Started",dueDate:"",notes:""}
+  {id:"tk24",title:"Review WLPBD comms process workflows – review and finalize",priority:"Medium",category:"Communications",status:"Not Started",dueDate:"",notes:""},
+  {id:"tk_percipiomsg",title:"Percipio SSO – communicate to users: mobile affected, username/password disabled, PIV/SSO only",priority:"High",category:"Communications",status:"Not Started",dueDate:"",notes:""}
 ];
 
 const DBRAG=[
   {id:"b1",win:"Led team to create standardized CE & recommended language for OCHCO",impact:"Established consistency and a recommended standard across the organization",area:"Policy/Learning",date:TD},
-  {id:"b2",win:"Consulted & advised other agencies on needs assessments and supervisor training",impact:"Demonstrated cross-agency expertise and advisory role",area:"Advisory/Consulting",date:TD},
+  {id:"b_suts",win:"SUTS redesign – 9.1/10 satisfaction score from 81 of 100 participants (Session 1)",impact:"One of the best trainings at EPA per participant feedback; strong structural and learning feedback",area:"SUTS/Rachel",date:TD},
+  {id:"b_aslp",win:"ASLP Pilot – 8.8/10 recommendation score, 13 experienced supervisors",impact:"Participants strongly support agency-wide rollout; meets 5 CFR 412.202 3-year requirement",area:"ASLP",date:TD},
+  {id:"b2",win:"Cross-agency advisory – needs assessments and supervisor training",impact:"Demonstrated cross-agency expertise and advisory role",area:"Advisory/Consulting",date:TD},
   {id:"b3",win:"eOPF – Michael resolved a 2-year ongoing problem",impact:"Eliminated a long-standing operational blocker",area:"PMT/Operations",date:TD},
   {id:"b4",win:"FAICOR & SF182 process – fully resolved",impact:"Improved efficiency and compliance in training approval workflow",area:"SF182/Operations",date:TD},
   {id:"b5",win:"Maxiflex/time card management – consistently on top",impact:"Reliable operational management",area:"Admin",date:TD},
   {id:"b6",win:"PMT Policy – progressing",impact:"Moving policy work forward amid competing priorities",area:"PMT/Policy",date:TD},
-  {id:"b7",win:"Rachel – OFA SUTS Presentation (3/7)",impact:"Reviewed slides; noted in Rachel's accomplishments",area:"Rachel/SUTS",date:TD}
+  {id:"b7",win:"Rachel – OFA SUTS Presentation (3/7)",impact:"Reviewed slides; strong team representation",area:"Rachel/SUTS",date:TD},
+  {id:"b8",win:"Rachel – All Hands presentation",impact:"Strong team representation and visibility",area:"Rachel/Comms",date:TD},
+  {id:"b9",win:"Mandatory training streamlining email sent to SMEs (3/13)",impact:"Proactively initiated seat-time reduction process; FY27/FY28 timeline communicated",area:"Mandatory Training",date:TD}
 ];
 
 const DSYSTEMS=[
-  {id:"sy1",name:"Skillsoft Percipio",poc:"Ryan",notes:"SAML/SSO Integration for PIV card login. Track progress, issues, milestones. Jason Gumbs/LLMP.",status:"Monitoring"},
-  {id:"sy2",name:"USA Performance (USAP)",poc:"PMT",notes:"Monitor compliance, admin tasks, template issues",status:"Monitoring"},
-  {id:"sy3",name:"FedTalent",poc:"",notes:"EDP for SES in FedTalent – advise/consult on implementation",status:"Monitoring"},
-  {id:"sy4",name:"SF182 / BAPS App",poc:"Ray",notes:"Process changes being implemented. Duties Transfer – SF182 App Owner pending.",status:"Open Issue"}
+  {id:"sy1",name:"Skillsoft Percipio",poc:"Ryan",notes:"SAML/SSO Integration – PIV/SSO only now; username/password disabled; mobile app affected. POC: Jason Gumbs/LLMP. Communicate to users.",status:"Open Issue"},
+  {id:"sy2",name:"USA Performance (USAP)",poc:"PMT",notes:"Monitor compliance, admin tasks, template issues. MOU and ISA need review.",status:"Monitoring"},
+  {id:"sy3",name:"FedTalent",poc:"Ryan/Diana",notes:"EDP for SES – advise/consult only. PIV card login starts account creation; overnight FPPS ping adds full account data. Ryan sent 2 SCORM packages to Diana for user testing.",status:"Monitoring"},
+  {id:"sy4",name:"SF182 / BAPS App",poc:"Ray",notes:"Process changes being implemented. Duties Transfer – SF182 App Owner pending. Transition to Cynthia.",status:"Open Issue"},
+  {id:"sy5",name:"LLMP / Coaching Platform",poc:"Jason Gumbs",notes:"Contract expires end Aug/Sep 2026. Jason recompeting for FY27 – verify status. Kendall's group NOT taking over yet – needs WCF board approval. Historical participation numbers needed for Kendall.",status:"Open Issue"}
+];
+
+// Training schedule data
+const DTRAINING=[
+  {id:"tr1",group:"Mid-Year PMT",date:"2026-04-07",time:"1:00–2:00pm",audience:"Employees",notes:"FLAG flagged"},
+  {id:"tr2",group:"Mid-Year PMT",date:"2026-04-09",time:"1:00–2:00pm",audience:"Supervisors",notes:""},
+  {id:"tr3",group:"Mid-Year PMT",date:"2026-04-21",time:"1:00–2:00pm",audience:"Supervisors",notes:""},
+  {id:"tr4",group:"Mid-Year PMT",date:"2026-04-23",time:"1:00–2:00pm",audience:"Employees",notes:""},
+  {id:"tr5",group:"SUTS Session 2",date:"2026-05-05",time:"11:30am–4:30pm",audience:"Aspiring Supervisors",notes:""},
+  {id:"tr6",group:"SUTS Session 2",date:"2026-05-07",time:"11:30am–4:30pm",audience:"Aspiring Supervisors",notes:""},
+  {id:"tr7",group:"SUTS Session 2",date:"2026-05-12",time:"11:30am–4:30pm",audience:"Aspiring Supervisors",notes:""},
+  {id:"tr8",group:"SUTS Session 2",date:"2026-05-14",time:"11:30am–4:30pm",audience:"Aspiring Supervisors",notes:""},
+  {id:"tr9",group:"Q3 Review PMT",date:"2026-07-07",time:"1:00–2:00pm",audience:"Employees",notes:""},
+  {id:"tr10",group:"Q3 Review PMT",date:"2026-07-09",time:"1:00–2:00pm",audience:"Supervisors",notes:""},
+  {id:"tr11",group:"Coaching Skills",date:"2026-07-21",time:"1:00–3:30pm",audience:"Supervisors/Managers",notes:"3-day series; register FedTalent"},
+  {id:"tr12",group:"SUTS Session 3",date:"2026-08-18",time:"11:30am–4:30pm",audience:"Aspiring Supervisors",notes:"4-day session"},
+  {id:"tr13",group:"ASLP Agency-Wide",date:"2026-08-11",time:"11:00am–3:00pm",audience:"Supervisors",notes:"August Room – 3-day rollout"},
+  {id:"tr14",group:"End-of-Year PMT",date:"2026-08-25",time:"1:00–2:00pm",audience:"Supervisors",notes:""},
+  {id:"tr15",group:"End-of-Year PMT",date:"2026-08-27",time:"1:00–2:00pm",audience:"Employees",notes:""},
+  {id:"tr16",group:"Coaching Skills",date:"2026-09-15",time:"1:00–3:30pm",audience:"Supervisors/Managers",notes:"3-day series"},
+  {id:"tr17",group:"End-of-Year PMT",date:"2026-09-08",time:"1:00–2:00pm",audience:"Employees",notes:""},
+  {id:"tr18",group:"End-of-Year PMT",date:"2026-09-10",time:"1:00–2:00pm",audience:"Supervisors",notes:""},
+  {id:"tr19",group:"End-of-Year PMT",date:"2026-10-06",time:"1:00–2:00pm",audience:"Employees",notes:""},
+  {id:"tr20",group:"End-of-Year PMT",date:"2026-10-08",time:"1:00–2:00pm",audience:"Supervisors",notes:""}
 ];
 
 // ─── State ────────────────────────────────────────────────────────────────────
-let S={unlocked:0,pw:"",tab:"today",tasks:null,rec:null,team:null,programs:null,issues:null,contacts:null,metrics:null,brag:null,approvals:[],systems:null,u:{taskSub:"all",taskFilter:"All",teamSub:"",teamTab:"tasks",progSub:"",progTab:"tasks",opsSub:"issues",metSub:"sf182",repSub:"quarterly",repQ:"Q2 (Jan-Mar)",repMember:"",repType:"quarterly",ae:{}}};
-const KS=["tasks","rec","team","programs","issues","contacts","metrics","brag","approvals","systems","pw"];
+let S={unlocked:0,pw:"",tab:"today",tasks:null,rec:null,team:null,programs:null,issues:null,contacts:null,metrics:null,brag:null,approvals:[],systems:null,training:null,u:{taskSub:"all",taskFilter:"All",teamSub:"",teamTab:"tasks",progSub:"",progTab:"tasks",opsSub:"issues",metSub:"sf182",repSub:"quarterly",repQ:"Q2 (Jan-Mar)",repMember:"",repType:"quarterly",ae:{}}};
+const KS=["tasks","rec","team","programs","issues","contacts","metrics","brag","approvals","systems","training","pw"];
 const st={async get(k){try{const v=localStorage.getItem(k);return v!=null?JSON.parse(v):null;}catch{return null;}},async set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){console.warn(e);}}};
 
 async function ld(){
@@ -220,10 +263,11 @@ async function ld(){
   if(!S.programs)S.programs=JSON.parse(JSON.stringify(DPROGS));
   if(!S.issues)S.issues=JSON.parse(JSON.stringify(DISSUES));
   if(!S.contacts)S.contacts=JSON.parse(JSON.stringify(DCONTACTS));
-  if(!S.metrics)S.metrics={sf182:{volume:"",procTime:"",errorRate:"",approvalRate:"",notes:"",rat:[{year:2024,total:"",notes:""},{year:2025,total:"",notes:""},{year:2026,total:"",notes:""}]},training:{completion:"",avgDays:"",newSup:"",refresher:"",notes:""},slp:{reactionary:"",app3mo:"",participants:"",notes:""},aslp:{reactionary:"",app3mo:"",participants:"",notes:""},csa:{transfers:"",notes:""}};
+  if(!S.metrics)S.metrics={sf182:{volume:"",procTime:"",errorRate:"",approvalRate:"",notes:"",rat:[{year:2024,total:"",notes:""},{year:2025,total:"",notes:""},{year:2026,total:"",notes:""}]},training:{completion:"",avgDays:"",newSup:"",refresher:"",notes:""},slp:{reactionary:"",app3mo:"",participants:"",notes:""},aslp:{reactionary:"8.8",app3mo:"",participants:"13",notes:"Piloted Feb 24-26, 2026. Agency-wide rollout Aug 2026."},csa:{transfers:"",notes:""}};
   if(!S.brag)S.brag=JSON.parse(JSON.stringify(DBRAG));
   if(!S.approvals)S.approvals=[];
   if(!S.systems)S.systems=JSON.parse(JSON.stringify(DSYSTEMS));
+  if(!S.training)S.training=JSON.parse(JSON.stringify(DTRAINING));
   if(!S.u.ae)S.u.ae={};
 }
 function sv(){KS.forEach(k=>st.set("iid_"+k,S[k]));}
@@ -252,8 +296,7 @@ function rLock(){
   const w=h("div",{style:{minHeight:"100vh",background:"linear-gradient(135deg,#1A0845 0%,#0D0521 50%,#1A0845 100%)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"24px"}});
   const bx=h("div",{style:{background:"#fff",borderRadius:"16px",padding:"28px",width:"100%",maxWidth:"360px",border:"1px solid #D0C8FF"}});
   if(S.pw){
-    const pi=ip("password","",()=>{},"Password"),er=h("div",{style:{color:"#e74c3c",fontSize:"12px",marginTop:"6px"}});
-    let _b=false;
+    const pi=ip("password","",()=>{},"Password"),er=h("div",{style:{color:"#e74c3c",fontSize:"12px",marginTop:"6px"}});let _b=false;
     const ub=$("Unlock",async()=>{if(_b)return;_b=true;er.textContent="Checking…";const h2=await hashPw(pi.value);if(h2===S.pw){S.unlocked=1;R();}else{er.textContent="Wrong password.";_b=false;}},"B Bp",{marginTop:"12px",width:"100%"});
     pi.addEventListener("keydown",e=>{if(e.key==="Enter")ub.click();});
     bx.appendChild(h("div",{style:{fontWeight:"700",fontSize:"18px",color:P,marginBottom:"16px",textAlign:"center"}},["🔒 Enter Password"]));
@@ -267,8 +310,7 @@ function rLock(){
   w.appendChild(h("div",{style:{fontSize:"26px",fontWeight:"900",color:"#fff",marginBottom:"4px",textAlign:"center"}},["♾️ The Infinite Improbability Drive"]));
   w.appendChild(h("div",{style:{fontSize:"13px",color:GOLD,fontStyle:"italic",marginBottom:"6px",textAlign:"center",fontWeight:"700",letterSpacing:"2px"}},["DON'T PANIC."]));
   w.appendChild(h("div",{style:{fontSize:"11px",color:"#9980CC",marginBottom:"28px",textAlign:"center"}},["Performance Management & Leadership · EPA PMT"]));
-  w.appendChild(bx);
-  return w;
+  w.appendChild(bx);return w;
 }
 function pwModal(){
   const f={a:"",b:""};const er=h("div",{style:{color:"#e74c3c",fontSize:"12px"}});let _b=false;
@@ -292,7 +334,7 @@ function rApp(){
   const fns={today:rToday,tasks:rTasks,team:rTeam,programs:rPrograms,ops:rOps,metrics:rMetrics,wins:rWins,reports:rReports,settings:rSettings};
   if(fns[S.tab])try{fns[S.tab](ct);}catch(err){console.error(err);ct.appendChild(h("div",{style:{padding:"20px",color:"#e74c3c"}},["Error: "+err.message]));}
   w.appendChild(ct);
-  w.appendChild(h("div",{style:{textAlign:"center",fontSize:"10px",color:"#A090CC",padding:"8px",background:"#F0EEFF",borderTop:"1px solid #E0DCFF"}},["The answer is 42 · FY26 · EPA PMT"]));
+  w.appendChild(h("div",{style:{textAlign:"center",fontSize:"10px",color:"#A090CC",padding:"8px",background:"#F0EEFF",borderTop:"1px solid #E0DCFF"}},["The answer is 42 · FY26 · EPA PMT · Key deadline: Apr 1"]));
   return w;
 }
 
@@ -305,12 +347,14 @@ function rToday(w){
   const dueWeek=tasks.filter(t=>t.dueDate&&t.dueDate>TD&&t.dueDate<=nwStr&&t.status!=="Complete"&&t.status!=="Cancelled");
   const highOpen=tasks.filter(t=>t.priority==="High"&&t.status!=="Complete"&&t.status!=="Cancelled");
   const openIssues=(S.issues||[]).filter(i=>i.status==="Open"||i.status==="In Progress");
+  const nextEvent=(S.training||[]).filter(t=>t.date>=TD).sort((a,b)=>a.date.localeCompare(b.date))[0];
   const sg=h("div",{style:{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:"8px",marginBottom:"12px"}});
   [[overdue.length,"⚠️ Overdue","#e74c3c"],[dueToday.length,"📅 Today","#e74c3c"],[highOpen.length,"🔴 High Pri","#f39c12"],[openIssues.length,"🚨 Issues","#8e44ad"]].forEach(([v,l,c])=>sg.appendChild(h("div",{class:"stat-box"},[h("div",{style:{fontSize:"24px",fontWeight:"900",color:c}},[String(v)]),h("div",{style:{fontSize:"10px",color:"#888",marginTop:"2px"}},[l])])));
   w.appendChild(C([sg]));
+  if(nextEvent){const ne=C([],{background:"#F0EEFF",borderLeft:"4px solid "+GOLD});ne.appendChild(h("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center"}},[h("div",{},[h("div",{style:{fontWeight:"700",fontSize:"12px",color:P}},["📅 Next Training Event"]),h("div",{style:{fontSize:"13px"}},[nextEvent.group+" – "+nextEvent.audience]),h("div",{style:{fontSize:"11px",color:"#888"}},[fmt(nextEvent.date)+" · "+nextEvent.time])]),$(">",()=>{S.tab="ops";S.u.opsSub="calendar";R();},"Bs Bo")]));w.appendChild(ne);}
   w.appendChild(H("📋 My Focus",[$("+Task",()=>addTaskModal(),"Bs Bp")]));
   if(overdue.length){const c=C([],{borderLeft:"4px solid #e74c3c",background:"#fff8f8"});c.appendChild(h("div",{style:{fontWeight:"700",color:"#e74c3c",marginBottom:"6px"}},["⚠️ Overdue ("+overdue.length+")"]));overdue.slice(0,6).forEach(t=>c.appendChild(miniTask(t)));w.appendChild(c);}
-  if(dueToday.length){const c=C([],{borderLeft:"4px solid "+P});c.appendChild(h("div",{style:{fontWeight:"700",color:P,marginBottom:"6px"}},["📅 Due Today ("+dueToday.length+")"]));dueToday.forEach(t=>c.appendChild(miniTask(t)));w.appendChild(c);}
+  if(dueToday.length){const c=C([],{borderLeft:"4px solid "+P});c.appendChild(h("div",{style:{fontWeight:"700",color:P,marginBottom:"6px"}},["📅 Due Today"]));dueToday.forEach(t=>c.appendChild(miniTask(t)));w.appendChild(c);}
   if(dueWeek.length){const c=C([],{borderLeft:"4px solid #f39c12"});c.appendChild(h("div",{style:{fontWeight:"700",color:"#f39c12",marginBottom:"6px"}},["📆 Due This Week ("+dueWeek.length+")"]));dueWeek.slice(0,5).forEach(t=>c.appendChild(miniTask(t)));w.appendChild(c);}
   const c2=C([],{background:"#F8F6FF"});
   c2.appendChild(h("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"8px"}},[h("div",{style:{fontWeight:"700",color:P}},["♻️ Recurring Admin"]),$("+",()=>addRecModal(),"Bs Bo")]));
@@ -342,12 +386,13 @@ function miniTask(t){
 // ─── TASKS ────────────────────────────────────────────────────────────────────
 function rTasks(w){
   const sub=S.u.taskSub||"all";
-  w.appendChild(SB([["all","📋 Open"],["high","🔴 High"],["complete","✅ Done"]],sub,v=>{S.u.taskSub=v;R();}));
+  w.appendChild(SB([["all","📋 Open"],["high","🔴 High"],["apr1","⚡ Apr 1"],["complete","✅ Done"]],sub,v=>{S.u.taskSub=v;R();}));
   const fltEl=sl(S.u.taskFilter||"All",v=>{S.u.taskFilter=v;R();},["All",...CATS]);fltEl.style.fontSize="12px";
   w.appendChild(H("Tasks",[fltEl,$("+Task",()=>addTaskModal(),"Bs Bp")]));
   let tasks=S.tasks||[];
   if(S.u.taskFilter&&S.u.taskFilter!=="All")tasks=tasks.filter(t=>t.category===S.u.taskFilter);
   if(sub==="high")tasks=tasks.filter(t=>t.priority==="High"&&t.status!=="Complete"&&t.status!=="Cancelled");
+  else if(sub==="apr1")tasks=tasks.filter(t=>t.dueDate==="2026-04-01"&&t.status!=="Complete"&&t.status!=="Cancelled");
   else if(sub==="complete")tasks=tasks.filter(t=>t.status==="Complete");
   else tasks=tasks.filter(t=>t.status!=="Complete"&&t.status!=="Cancelled");
   const grouped={};tasks.forEach(t=>{const c=t.category||"Other";if(!grouped[c])grouped[c]=[];grouped[c].push(t);});
@@ -401,11 +446,9 @@ function rTeam(w){
       if(m.kudos&&m.kudos.length)stats.appendChild(bg("⭐"+m.kudos.length,GOLD));
       if(openT)stats.appendChild(bg("📌"+openT,P));
       if(m.concerns&&m.concerns.length)stats.appendChild(bg("⚠️"+m.concerns.length,"#e74c3c"));
-      card.appendChild(stats);
-      grid.appendChild(card);
+      card.appendChild(stats);grid.appendChild(card);
     });
-    w.appendChild(grid);
-    return;
+    w.appendChild(grid);return;
   }
   const member=(S.team||[]).find(m=>m.id===selId);
   if(!member){S.u.teamSub="";R();return;}
@@ -420,7 +463,7 @@ function rTeam(w){
       row.appendChild(CK(t.done,()=>{t.done=!t.done;sv();R();}));
       row.appendChild(ED(t.title||"",v=>{t.title=v;sv();}));
       if(t.dueDate)row.appendChild(h("span",{style:{fontSize:"10px",color:"#888"}},["📅"+fmt(t.dueDate)]));
-      row.appendChild($("📅",()=>{const d=prompt("Due date (YYYY-MM-DD):",t.dueDate||"");if(d!==null){t.dueDate=d||null;sv();R();}},"",{background:"none",border:"none",cursor:"pointer",color:P,fontSize:"11px"}));
+      row.appendChild($("📅",()=>{const d=prompt("Due (YYYY-MM-DD):",t.dueDate||"");if(d!==null){t.dueDate=d||null;sv();R();}},"",{background:"none",border:"none",cursor:"pointer",color:P,fontSize:"11px"}));
       row.appendChild(DL(()=>{member.tasks=member.tasks.filter(x=>x.id!==t.id);sv();R();}));
       c.appendChild(row);
     });
@@ -448,7 +491,7 @@ function rTeam(w){
       row.appendChild(DL(()=>{member.concerns.splice(i,1);sv();R();}));
       c.appendChild(row);
     });
-    c.appendChild(AI("Add concern/follow-up...",v=>{if(!member.concerns)member.concerns=[];member.concerns.push(v);sv();}));
+    c.appendChild(AI("Add concern...",v=>{if(!member.concerns)member.concerns=[];member.concerns.push(v);sv();}));
     w.appendChild(c);
   } else if(tab==="notes"){
     const c=C([]);
@@ -459,7 +502,7 @@ function rTeam(w){
       nd.appendChild(DL(()=>{member.notes=member.notes.filter(x=>x.id!==n.id);sv();R();}));
       c.appendChild(nd);
     });
-    const ntx=ta("",()=>{},"Add note...",3),ntag=ip("text","",()=>{},"Tag (optional, e.g. 1:1)");
+    const ntx=ta("",()=>{},"Add note...",3),ntag=ip("text","",()=>{},"Tag (e.g. 1:1)");
     c.appendChild(ntag);c.appendChild(ntx);
     c.appendChild($("Add Note",()=>{const v=ntx.value.trim();if(!v)return;if(!member.notes)member.notes=[];member.notes.push({id:uid(),text:v,date:TD,tag:ntag.value.trim()});ntx.value="";ntag.value="";sv();R();},"Bs Bp",{marginTop:"6px"}));
     w.appendChild(c);
@@ -473,11 +516,7 @@ function rTeam(w){
       c.appendChild(od);
     });
     const f={date:TD,agenda:"",notes:""};
-    c.appendChild(h("div",{style:{borderTop:"1px solid #eee",paddingTop:"10px",marginTop:"4px"}},[
-      h("div",{class:"g2",style:{marginBottom:"8px"}},[FL("Date",ip("date",TD,v=>f.date=v)),FL("Topic/Agenda",ip("text","",v=>f.agenda=v,"Main topic"))]),
-      ta("",v=>f.notes=v,"Notes from 1:1...",3),
-      $("Log 1:1",()=>{if(!member.oneOnes)member.oneOnes=[];member.oneOnes.push({id:uid(),...f});sv();R();},"Bs Bp",{marginTop:"6px"})
-    ]));
+    c.appendChild(h("div",{style:{borderTop:"1px solid #eee",paddingTop:"10px",marginTop:"4px"}},[h("div",{class:"g2",style:{marginBottom:"8px"}},[FL("Date",ip("date",TD,v=>f.date=v)),FL("Topic",ip("text","",v=>f.agenda=v,"Main topic"))]),ta("",v=>f.notes=v,"Notes from 1:1...",3),$("Log 1:1",()=>{if(!member.oneOnes)member.oneOnes=[];member.oneOnes.push({id:uid(),...f});sv();R();},"Bs Bp",{marginTop:"6px"})]));
     w.appendChild(c);
   }
 }
@@ -495,11 +534,10 @@ function rPrograms(w){
       progs.forEach(p=>{
         const card=h("div",{class:"prog-card",style:{borderLeftColor:PROG_C[p.status]||P},onclick:()=>{S.u.progSub=p.id;S.u.progTab="tasks";R();}});
         const open=(p.tasks||[]).filter(t=>!t.done).length;
-        card.appendChild(h("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}},[h("div",{},[h("div",{style:{fontWeight:"700",fontSize:"14px"}},[p.name||""]),p.fullName&&p.fullName!==p.name?h("div",{style:{fontSize:"11px",color:"#888"}},[p.fullName]):null,p.description?h("div",{style:{fontSize:"11px",color:"#555",marginTop:"4px"}},[p.description.slice(0,90)+(p.description.length>90?"…":"")]):null]),h("div",{style:{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:"4px"}},[bg(p.status,PROG_C[p.status]||"#888"),open?h("span",{style:{fontSize:"10px",color:"#888"}},[open+" task"+(open>1?"s":"")+" open"]):null])]));
+        card.appendChild(h("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}},[h("div",{},[h("div",{style:{fontWeight:"700",fontSize:"14px"}},[p.name||""]),p.fullName&&p.fullName!==p.name?h("div",{style:{fontSize:"11px",color:"#888"}},[p.fullName]):null,p.description?h("div",{style:{fontSize:"11px",color:"#555",marginTop:"4px"}},[p.description.slice(0,90)+(p.description.length>90?"…":"")]):null]),h("div",{style:{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:"4px"}},[bg(p.status,PROG_C[p.status]||"#888"),open?h("span",{style:{fontSize:"10px",color:"#888"}},[open+" open"]):null])]));
         w.appendChild(card);
       });
-    });
-    return;
+    });return;
   }
   const prog=(S.programs||[]).find(p=>p.id===selId);
   if(!prog){S.u.progSub="";R();return;}
@@ -533,9 +571,9 @@ function rPrograms(w){
     w.appendChild(c);
   } else {
     if(!prog.metrics)prog.metrics={};const pm=prog.metrics;
-    const c=C([]);
-    c.appendChild(h("div",{style:{fontWeight:"700",marginBottom:"8px",color:P}},["📊 Program Metrics"]));
-    c.appendChild(h("div",{class:"g2"},[FL("Participants",ip("number",pm.participants||"",v=>{pm.participants=v;sv();},"#")),FL("Completion %",ip("number",pm.completion||"",v=>{pm.completion=v;sv();},"%")),FL("Reactionary Score (1-5)",ip("number",pm.reactionary||"",v=>{pm.reactionary=v;sv();},"score")),FL("3-mo Application %",ip("number",pm.app3mo||"",v=>{pm.app3mo=v;sv();},"%"))]));
+    const c=C([]);c.appendChild(h("div",{style:{fontWeight:"700",marginBottom:"8px",color:P}},["📊 Program Metrics"]));
+    const ni=(obj,key,lbl,ph)=>{const i=ip("number",obj[key]||"",v=>{obj[key]=v;sv();},ph);return FL(lbl,i);};
+    c.appendChild(h("div",{class:"g2"},[ni(pm,"participants","Participants","#"),ni(pm,"completion","Completion %","%"),ni(pm,"reactionary","Reactionary Score (1-5)","score"),ni(pm,"app3mo","3-mo Application %","%")]));
     if(pm.completion)c.appendChild(h("div",{style:{marginTop:"6px"}},[h("div",{style:{fontSize:"11px",color:"#555",marginBottom:"3px"}},["Completion"]),PB(parseInt(pm.completion)||0,"#27ae60")]));
     c.appendChild(h("div",{style:{marginTop:"8px"}},[FL("Notes",ta(pm.notes||"",v=>{pm.notes=v;sv();},"Notes...",2))]));
     w.appendChild(c);
@@ -544,12 +582,32 @@ function rPrograms(w){
 
 // ─── OPS ──────────────────────────────────────────────────────────────────────
 function rOps(w){
-  w.appendChild(SB([["issues","🚨 Issues"],["approvals","📋 Approvals"],["contacts","📇 Contacts"],["systems","🖥 Systems"]],S.u.opsSub,v=>{S.u.opsSub=v;R();}));
-  if(S.u.opsSub==="issues"){
+  w.appendChild(SB([["issues","🚨 Issues"],["approvals","📋 Approvals"],["contacts","📇 Contacts"],["systems","🖥 Systems"],["calendar","📅 Calendar"]],S.u.opsSub,v=>{S.u.opsSub=v;R();}));
+  if(S.u.opsSub==="calendar"){
+    w.appendChild(H("📅 FY26 Training Calendar",[$("+Event",()=>{const f={group:"PMT",date:TD,time:"",audience:"",notes:""};const m=ml("Add Training Event",h("div",{style:{display:"flex",flexDirection:"column",gap:"10px"}},[ip("text","",v=>f.group=v,"Program/Group"),FL("Date",ip("date",TD,v=>f.date=v)),ip("text","",v=>f.time=v,"Time"),ip("text","",v=>f.audience=v,"Audience (Supervisors/Employees/etc)"),ta("",v=>f.notes=v,"Notes...",2),$("Add",()=>{if(!f.group)return;if(!S.training)S.training=[];S.training.push({...f,id:uid()});sv();m.remove();R();},"B Bp")]));},"Bs Bp")]));
+    const grouped={};
+    (S.training||[]).sort((a,b)=>a.date.localeCompare(b.date)).forEach(e=>{const g=e.group||"Other";if(!grouped[g])grouped[g]=[];grouped[g].push(e);});
+    const AUD_C={"Employees":"#2980b9","Supervisors":"#8e44ad","Supervisors/Managers":"#8e44ad","Aspiring Supervisors":"#27ae60","All":"#555"};
+    Object.entries(grouped).forEach(([grp,evts])=>{
+      const gc=C([]);
+      gc.appendChild(h("div",{style:{fontWeight:"700",fontSize:"13px",color:P,marginBottom:"8px"}},[grp]));
+      evts.forEach(e=>{
+        const isPast=e.date<TD;
+        const row=h("div",{class:"cal-row",style:{background:isPast?"#f5f5f5":"#F8F6FF",opacity:isPast?"0.6":"1"}});
+        row.appendChild(h("div",{style:{flex:"1"}},[h("div",{style:{fontSize:"13px",fontWeight:"600",color:isPast?"#aaa":P}},[fmt(e.date)+" · "+e.time]),h("div",{style:{fontSize:"11px",color:"#666",marginTop:"2px"}},[e.notes||""])]));
+        row.appendChild(h("div",{style:{display:"flex",gap:"4px",alignItems:"center"}},[bg(e.audience||"",AUD_C[e.audience]||"#888"),DL(()=>{S.training=S.training.filter(x=>x.id!==e.id);sv();R();})]));
+        gc.appendChild(row);
+      });
+      w.appendChild(gc);
+    });
+    const upcoming=(S.training||[]).filter(e=>e.date>=TD).length;
+    const past=(S.training||[]).filter(e=>e.date<TD).length;
+    w.appendChild(h("div",{style:{fontSize:"11px",color:"#888",textAlign:"center",padding:"8px"}},[upcoming+" upcoming · "+past+" past"]));
+  } else if(S.u.opsSub==="issues"){
     w.appendChild(H("🚨 Active Issues",[$("+Issue",()=>{const f={area:"PMT",issue:"",status:"Open",notes:""};const m=ml("Add Issue",h("div",{style:{display:"flex",flexDirection:"column",gap:"10px"}},[ip("text","",v=>f.area=v,"Area"),ip("text","",v=>f.issue=v,"Issue description"),FL("Status",sl("Open",v=>f.status=v,ST_ISS)),ta("",v=>f.notes=v,"Notes...",2),$("Add",()=>{if(!f.issue.trim())return;S.issues.push({...f,id:uid(),created:TD});sv();m.remove();R();},"B Bp")]));},"Bs Bp")]));
     const active=(S.issues||[]).filter(i=>i.status!=="Closed"&&i.status!=="Resolved");
     const done=(S.issues||[]).filter(i=>i.status==="Closed"||i.status==="Resolved");
-    if(!active.length)w.appendChild(C([h("div",{style:{color:"#27ae60",textAlign:"center",padding:"20px",fontSize:"16px"}},["✅ No open issues! The probability of that was 1 in 2^276709."])]));
+    if(!active.length)w.appendChild(C([h("div",{style:{color:"#27ae60",textAlign:"center",padding:"20px"}},["✅ No open issues!"])]));
     active.forEach(i=>{
       const row=h("div",{class:"iss-row"});
       row.appendChild(h("div",{style:{width:"10px",height:"10px",borderRadius:"50%",background:ISS_C[i.status]||"#888",flexShrink:"0",marginTop:"5px"}}));
@@ -559,7 +617,7 @@ function rOps(w){
       if(i.notes)cv.appendChild(h("div",{style:{fontSize:"11px",color:"#666",marginTop:"4px",fontStyle:"italic"}},[i.notes]));
       row.appendChild(cv);
       const stSl=sl(i.status,v=>{i.status=v;sv();R();},ST_ISS);stSl.style.cssText="font-size:11px;width:auto;padding:3px 6px";
-      row.appendChild(h("div",{style:{display:"flex",flexDirection:"column",gap:"4px",alignItems:"flex-end"}},[stSl,$("✏️",()=>{const ef={area:i.area||"",issue:i.issue||"",status:i.status,notes:i.notes||""};const em=ml("Edit Issue",h("div",{style:{display:"flex",flexDirection:"column",gap:"8px"}},[ip("text",i.area||"",v=>ef.area=v,"Area"),ip("text",i.issue||"",v=>ef.issue=v,"Issue"),FL("Status",sl(i.status,v=>ef.status=v,ST_ISS)),ta(i.notes||"",v=>ef.notes=v,"Notes...",2),$("Save",()=>{i.area=ef.area;i.issue=ef.issue;i.status=ef.status;i.notes=ef.notes;sv();em.remove();R();},"B Bp")]));},"",{background:"none",border:"none",cursor:"pointer",color:P,fontSize:"12px"}),DL(()=>{S.issues=S.issues.filter(x=>x.id!==i.id);sv();R();})]));
+      row.appendChild(h("div",{style:{display:"flex",flexDirection:"column",gap:"4px",alignItems:"flex-end"}},[stSl,DL(()=>{S.issues=S.issues.filter(x=>x.id!==i.id);sv();R();})]));
       w.appendChild(row);
     });
     if(done.length){w.appendChild(h("div",{style:{fontWeight:"700",fontSize:"13px",color:"#888",margin:"12px 0 4px"}},["Resolved/Closed ("+done.length+")"]));done.forEach(i=>w.appendChild(h("div",{style:{display:"flex",justifyContent:"space-between",padding:"4px 0",borderBottom:"1px solid #eee",fontSize:"12px",color:"#aaa"}},[h("span",{},[i.area+" – "+i.issue]),bg(i.status,"#27ae60")])));}
@@ -568,7 +626,7 @@ function rOps(w){
     const pend=(S.approvals||[]).filter(a=>a.status==="Pending");
     const done2=(S.approvals||[]).filter(a=>a.status!=="Pending");
     if(!pend.length)w.appendChild(C([h("div",{style:{color:"#27ae60",textAlign:"center"}},["No pending approvals!"])]));
-    pend.forEach(a=>{w.appendChild(C([h("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"start",width:"100%"}},[h("div",{},[h("div",{style:{fontWeight:"600"}},[a.type+" – "+a.requester]),h("div",{style:{fontSize:"11px",color:"#888"}},[a.details+(a.date?" · "+fmt(a.date):"")]),bg("Pending","#f39c12")]),h("div",{style:{display:"flex",gap:"4px",flexWrap:"wrap"}},[$("✅",()=>{a.status="Approved";a.approvedDate=TD;sv();R();},"Bs Bg"),$("❌",()=>{a.status="Denied";sv();R();},"Bs Bd"),DL(()=>{S.approvals=S.approvals.filter(x=>x.id!==a.id);sv();R();})])])],{padding:"10px"}));});
+    pend.forEach(a=>{w.appendChild(C([h("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"start",width:"100%"}},[h("div",{},[h("div",{style:{fontWeight:"600"}},[a.type+" – "+a.requester]),h("div",{style:{fontSize:"11px",color:"#888"}},[a.details+(a.date?" · "+fmt(a.date):"")]),bg("Pending","#f39c12")]),h("div",{style:{display:"flex",gap:"4px"}},[$("✅",()=>{a.status="Approved";a.approvedDate=TD;sv();R();},"Bs Bg"),$("❌",()=>{a.status="Denied";sv();R();},"Bs Bd"),DL(()=>{S.approvals=S.approvals.filter(x=>x.id!==a.id);sv();R();})])])],{padding:"10px"}));});
     if(done2.length){w.appendChild(h("div",{style:{fontWeight:"700",fontSize:"13px",color:"#888",margin:"12px 0 4px"}},["Completed ("+done2.length+")"]));done2.slice(0,8).forEach(a=>w.appendChild(h("div",{style:{display:"flex",justifyContent:"space-between",padding:"4px 0",borderBottom:"1px solid #eee",fontSize:"12px"}},[h("span",{},[a.type+" – "+a.requester]),bg(a.status,a.status==="Approved"?"#27ae60":"#e74c3c")])));}
   } else if(S.u.opsSub==="contacts"){
     w.appendChild(H("📇 Contacts",[$("+Add",()=>{const f={name:"",org:"",context:""};const m=ml("Add Contact",h("div",{style:{display:"flex",flexDirection:"column",gap:"10px"}},[ip("text","",v=>f.name=v,"Name"),ip("text","",v=>f.org=v,"Org/Role"),ta("",v=>f.context=v,"Context/Notes...",2),$("Add",()=>{if(!f.name.trim())return;S.contacts.push({...f,id:uid()});sv();m.remove();R();},"B Bp")]));},"Bs Bp")]));
@@ -595,11 +653,10 @@ function rMetrics(w){
   w.appendChild(SB([["sf182","SF-182"],["training","Training"],["programs","Programs"],["dashboard","📊 Dashboard"]],S.u.metSub,v=>{S.u.metSub=v;R();}));
   if(!S.metrics)S.metrics={sf182:{},training:{},slp:{},aslp:{},csa:{}};
   const m=S.metrics;
-  const numInp=(obj,key,lbl,ph)=>FL(lbl,ip("number",obj[key]||"",v=>{obj[key]=v;sv();},ph));
+  const ni=(obj,key,lbl,ph)=>FL(lbl,ip("number",obj[key]||"",v=>{obj[key]=v;sv();},ph));
   if(S.u.metSub==="sf182"){
-    w.appendChild(H("SF-182 Metrics"));
-    const c=C([]);if(!m.sf182)m.sf182={};
-    c.appendChild(h("div",{class:"g2"},[numInp(m.sf182,"volume","Total Volume","#"),numInp(m.sf182,"procTime","Avg Processing Days","days"),numInp(m.sf182,"errorRate","Error Rate %","%"),numInp(m.sf182,"approvalRate","Approval Rate %","%")]));
+    w.appendChild(H("SF-182 Metrics"));const c=C([]);if(!m.sf182)m.sf182={};
+    c.appendChild(h("div",{class:"g2"},[ni(m.sf182,"volume","Total Volume","#"),ni(m.sf182,"procTime","Avg Processing Days","days"),ni(m.sf182,"errorRate","Error Rate %","%"),ni(m.sf182,"approvalRate","Approval Rate %","%")]));
     if(m.sf182.approvalRate)c.appendChild(h("div",{style:{marginTop:"8px"}},[h("div",{style:{fontSize:"11px",color:"#555",marginBottom:"3px"}},["Approval Rate"]),PB(parseInt(m.sf182.approvalRate)||0,"#27ae60")]));
     c.appendChild(h("div",{style:{marginTop:"8px"}},[FL("Notes",ta(m.sf182.notes||"",v=>{m.sf182.notes=v;sv();},"Notes...",2))]));
     w.appendChild(c);
@@ -610,54 +667,53 @@ function rMetrics(w){
   } else if(S.u.metSub==="training"){
     w.appendChild(H("Training Metrics"));if(!m.training)m.training={};
     const c=C([]);c.appendChild(h("div",{style:{fontWeight:"700",marginBottom:"8px",color:P}},["OPM Mandatory Training"]));
-    c.appendChild(h("div",{class:"g2"},[numInp(m.training,"completion","Completion Rate %","%"),numInp(m.training,"avgDays","Avg Days to Complete","days"),numInp(m.training,"newSup","New Supervisors Trained","#"),numInp(m.training,"refresher","Refreshers Completed","#")]));
+    c.appendChild(h("div",{class:"g2"},[ni(m.training,"completion","Completion Rate %","%"),ni(m.training,"avgDays","Avg Days to Complete","days"),ni(m.training,"newSup","New Supervisors Trained","#"),ni(m.training,"refresher","Refreshers Completed","#")]));
     if(m.training.completion)c.appendChild(h("div",{style:{marginTop:"8px"}},[h("div",{style:{fontSize:"11px",color:"#555",marginBottom:"3px"}},["Completion Rate"]),PB(parseInt(m.training.completion)||0,parseInt(m.training.completion||0)>=90?"#27ae60":"#e74c3c")]));
-    c.appendChild(h("div",{style:{marginTop:"8px"}},[FL("Notes",ta(m.training.notes||"",v=>{m.training.notes=v;sv();},"Notes...",2))]));
+    c.appendChild(FL("Notes",ta(m.training.notes||"",v=>{m.training.notes=v;sv();},"Notes...",2)));
     w.appendChild(c);
     if(!m.csa)m.csa={};
     const c2=C([]);c2.appendChild(h("div",{style:{fontWeight:"700",marginBottom:"8px",color:P}},["CSA Metrics"]));
-    c2.appendChild(h("div",{class:"g2"},[numInp(m.csa,"transfers","CSA Transfers","#"),numInp(m.csa,"count","CSA Count","#")]));
+    c2.appendChild(h("div",{class:"g2"},[ni(m.csa,"transfers","CSA Transfers","#"),ni(m.csa,"count","CSA Count","#")]));
     c2.appendChild(FL("Notes",ta(m.csa.notes||"",v=>{m.csa.notes=v;sv();},"Notes...",2)));
     w.appendChild(c2);
   } else if(S.u.metSub==="programs"){
     w.appendChild(H("Program Metrics"));
     ["slp","aslp"].forEach(key=>{
       if(!m[key])m[key]={};const pm=m[key];
-      const c=C([]);c.appendChild(h("div",{style:{fontWeight:"700",marginBottom:"8px",color:P}},[key.toUpperCase()+" Metrics"]));
-      c.appendChild(h("div",{class:"g2"},[numInp(pm,"reactionary","Reactionary Score (1-5)","score"),numInp(pm,"app3mo","3-Month Application %","%"),numInp(pm,"participants","Participants","#"),numInp(pm,"completion","Completion %","%")]));
+      const c=C([]);c.appendChild(h("div",{style:{fontWeight:"700",marginBottom:"8px",color:P}},[key.toUpperCase()+" Metrics"+(key==="aslp"?" (Pilot: 8.8/10, 13 participants)":"")]));
+      c.appendChild(h("div",{class:"g2"},[ni(pm,"reactionary","Reactionary Score (1-5)","score"),ni(pm,"app3mo","3-Month Application %","%"),ni(pm,"participants","Participants","#"),ni(pm,"completion","Completion %","%")]));
       c.appendChild(FL("Notes",ta(pm.notes||"",v=>{pm.notes=v;sv();},"Notes...",2)));
       w.appendChild(c);
     });
   } else {
     w.appendChild(H("📊 Dashboard"));
-    const vals=[[m.sf182&&m.sf182.volume||"—","SF182 Volume","#2980b9"],[m.sf182&&m.sf182.approvalRate?m.sf182.approvalRate+"%":"—","SF182 Approval %","#27ae60"],[m.training&&m.training.completion?m.training.completion+"%":"—","Training Complete",parseInt(m.training&&m.training.completion||0)>=90?"#27ae60":"#e74c3c"],[m.slp&&m.slp.reactionary?m.slp.reactionary+"/5":"—","SLP Score","#8e44ad"],[m.aslp&&m.aslp.reactionary?m.aslp.reactionary+"/5":"—","ASLP Score","#8e44ad"],[m.slp&&m.slp.app3mo?m.slp.app3mo+"%":"—","SLP Apply %","#27ae60"]];
+    const vals=[[m.sf182&&m.sf182.volume||"—","SF182 Volume","#2980b9"],[m.sf182&&m.sf182.approvalRate?m.sf182.approvalRate+"%":"—","SF182 Approval %","#27ae60"],[m.training&&m.training.completion?m.training.completion+"%":"—","Training Complete",parseInt(m.training&&m.training.completion||0)>=90?"#27ae60":"#e74c3c"],["8.8/10","ASLP Pilot","#8e44ad"],["9.1/10","SUTS Session 1","#27ae60"],[m.slp&&m.slp.app3mo?m.slp.app3mo+"%":"—","SLP Apply %","#27ae60"]];
     const grid=h("div",{style:{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:"8px"}});
-    vals.forEach(([v,l,c])=>grid.appendChild(h("div",{class:"stat-box"},[h("div",{style:{fontSize:"22px",fontWeight:"700",color:c}},[String(v)]),h("div",{style:{fontSize:"10px",color:"#888",marginTop:"4px"}},[l])])));
+    vals.forEach(([v,l,c])=>grid.appendChild(h("div",{class:"stat-box"},[h("div",{style:{fontSize:"20px",fontWeight:"700",color:c}},[String(v)]),h("div",{style:{fontSize:"10px",color:"#888",marginTop:"4px"}},[l])])));
     w.appendChild(C([grid]));
     const taskStats={};(S.tasks||[]).filter(t=>t.status!=="Complete"&&t.status!=="Cancelled").forEach(t=>{const c=t.category||"Other";taskStats[c]=(taskStats[c]||0)+1;});
     const c2=C([]);c2.appendChild(h("div",{style:{fontWeight:"700",marginBottom:"8px",color:P}},["Open Tasks by Category"]));
-    Object.entries(taskStats).sort((a,b)=>b[1]-a[1]).forEach(([cat,cnt])=>{c2.appendChild(h("div",{style:{marginBottom:"8px"}},[h("div",{style:{display:"flex",justifyContent:"space-between",marginBottom:"2px"}},[h("span",{style:{fontSize:"12px"}},[cat]),h("span",{style:{fontSize:"12px",fontWeight:"700"}},[cnt])]),PB(Math.min(cnt*10,100),P)]));});
+    Object.entries(taskStats).sort((a,b)=>b[1]-a[1]).forEach(([cat,cnt])=>{c2.appendChild(h("div",{style:{marginBottom:"8px"}},[h("div",{style:{display:"flex",justifyContent:"space-between",marginBottom:"2px"}},[h("span",{style:{fontSize:"12px"}},[cat]),h("span",{style:{fontSize:"12px",fontWeight:"700"}},[cnt])]),PB(Math.min(cnt*8,100),P)]));});
     w.appendChild(c2);
   }
 }
 
 // ─── WINS ─────────────────────────────────────────────────────────────────────
 function rWins(w){
-  w.appendChild(H("⭐ Wins & Brag Sheet",[$("+Win",()=>{const f={win:"",impact:"",area:"",date:TD};const m=ml("Add Win",h("div",{style:{display:"flex",flexDirection:"column",gap:"10px"}},[ip("text","",v=>f.win=v,"What you/your team did"),ip("text","",v=>f.impact=v,"Impact / result"),ip("text","",v=>f.area=v,"Area (e.g. PMT/Operations)"),FL("Date",ip("date",TD,v=>f.date=v)),$("Add",()=>{if(!f.win.trim())return;if(!S.brag)S.brag=[];S.brag.push({...f,id:uid()});sv();m.remove();R();},"B Bp")]));},"Bs Bp")]));
+  w.appendChild(H("⭐ Wins & Brag Sheet",[$("+Win",()=>{const f={win:"",impact:"",area:"",date:TD};const m=ml("Add Win",h("div",{style:{display:"flex",flexDirection:"column",gap:"10px"}},[ip("text","",v=>f.win=v,"What you/your team did"),ip("text","",v=>f.impact=v,"Impact / result"),ip("text","",v=>f.area=v,"Area"),FL("Date",ip("date",TD,v=>f.date=v)),$("Add",()=>{if(!f.win.trim())return;if(!S.brag)S.brag=[];S.brag.push({...f,id:uid()});sv();m.remove();R();},"B Bp")]));},"Bs Bp")]));
   w.appendChild(h("p",{style:{fontSize:"12px",color:"#888",fontStyle:"italic",marginBottom:"8px"}},["Use for quarterly reviews, mid-year, LDR Performance Strategy, and AI-generated performance reviews."]));
   (S.brag||[]).forEach(b=>{
     const c=C([],{borderLeft:"4px solid "+GOLD});
-    c.appendChild(h("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"start",width:"100%"}},[h("div",{style:{flex:"1"}},[h("div",{style:{fontWeight:"700",fontSize:"14px"}},[b.win||""]),h("div",{style:{fontSize:"12px",color:"#27ae60",marginTop:"4px"}},["→ "+(b.impact||"")]),h("div",{style:{display:"flex",gap:"4px",marginTop:"6px"}},[bg(b.area||"","#888"),b.date?h("span",{style:{fontSize:"10px",color:"#aaa",marginLeft:"4px"}},[fmt(b.date)]):null].filter(Boolean))]),h("div",{style:{display:"flex",gap:"4px"}},[$("✏️",()=>{const bf={win:b.win||"",impact:b.impact||"",area:b.area||"",date:b.date||TD};const bm=ml("Edit Win",h("div",{style:{display:"flex",flexDirection:"column",gap:"8px"}},[ip("text",b.win||"",v=>bf.win=v,"What you did"),ip("text",b.impact||"",v=>bf.impact=v,"Impact"),ip("text",b.area||"",v=>bf.area=v,"Area"),FL("Date",ip("date",b.date||TD,v=>bf.date=v)),$("Save",()=>{b.win=bf.win;b.impact=bf.impact;b.area=bf.area;b.date=bf.date;sv();bm.remove();R();},"B Bp")]));},"",{background:"none",border:"none",cursor:"pointer",color:P,fontSize:"12px"}),DL(()=>{S.brag=S.brag.filter(x=>x.id!==b.id);sv();R();})])]));
+    c.appendChild(h("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"start",width:"100%"}},[h("div",{style:{flex:"1"}},[h("div",{style:{fontWeight:"700",fontSize:"14px"}},[b.win||""]),h("div",{style:{fontSize:"12px",color:"#27ae60",marginTop:"4px"}},["→ "+(b.impact||"")]),h("div",{style:{display:"flex",gap:"4px",marginTop:"6px"}},[bg(b.area||"","#888"),b.date?h("span",{style:{fontSize:"10px",color:"#aaa",marginLeft:"4px"}},[fmt(b.date)]):null].filter(Boolean))]),h("div",{style:{display:"flex",gap:"4px"}},[$("✏️",()=>{const bf={win:b.win||"",impact:b.impact||"",area:b.area||"",date:b.date||TD};const bm=ml("Edit Win",h("div",{style:{display:"flex",flexDirection:"column",gap:"8px"}},[ip("text",b.win||"",v=>bf.win=v),ip("text",b.impact||"",v=>bf.impact=v,"Impact"),ip("text",b.area||"",v=>bf.area=v,"Area"),FL("Date",ip("date",b.date||TD,v=>bf.date=v)),$("Save",()=>{b.win=bf.win;b.impact=bf.impact;b.area=bf.area;b.date=bf.date;sv();bm.remove();R();},"B Bp")]));},"",{background:"none",border:"none",cursor:"pointer",color:P,fontSize:"12px"}),DL(()=>{S.brag=S.brag.filter(x=>x.id!==b.id);sv();R();})])]));
     w.appendChild(c);
   });
 }
 
-// ─── REPORTS (AI-Powered) ─────────────────────────────────────────────────────
+// ─── REPORTS ──────────────────────────────────────────────────────────────────
 function rReports(w){
   const sub=S.u.repSub||"quarterly";
   w.appendChild(SB([["quarterly","📄 Quarterly Report"],["reviews","👥 Perf Reviews"]],sub,v=>{S.u.repSub=v;S.u.repOut="";R();}));
   w.appendChild(h("div",{style:{background:"linear-gradient(135deg,#1A0845,#2D1B69)",borderRadius:"12px",padding:"12px 16px",marginBottom:"12px",color:"#fff",fontSize:"12px",display:"flex",alignItems:"center",gap:"8px"}},[h("span",{style:{fontSize:"20px"}},["🤖"]),h("div",{},[h("div",{style:{fontWeight:"700",fontSize:"13px"}},["AI-Powered Reports"]),h("div",{style:{color:"#C8B8FF",marginTop:"2px"}},["Consults the Guide… and your data."])])]));
-
   if(sub==="quarterly"){
     const qOpts=["Q1 (Oct-Dec)","Q2 (Jan-Mar)","Q3 (Apr-Jun)","Q4 (Jul-Sep)"];
     const qSel=sl(S.u.repQ||"Q2 (Jan-Mar)",v=>{S.u.repQ=v;},qOpts);
@@ -671,94 +727,86 @@ function rReports(w){
         const tasks=S.tasks||[];const progs=S.programs||[];const wins=S.brag||[];const m=S.metrics||{};
         const completedTasks=tasks.filter(t=>t.status==="Complete").map(t=>`- ${t.title} [${t.category}]`).join("\n")||"None logged yet";
         const openHigh=tasks.filter(t=>t.priority==="High"&&t.status!=="Complete"&&t.status!=="Cancelled").map(t=>`- ${t.title} (${t.status})${t.dueDate?" due "+t.dueDate:""}`).join("\n")||"None";
-        const progSummary=progs.map(p=>{const openT=(p.tasks||[]).filter(t=>!t.done).length;const doneT=(p.tasks||[]).filter(t=>t.done).length;return `- ${p.name} (${p.fullName}): Status=${p.status}, ${doneT} tasks done, ${openT} open`;}).join("\n");
+        const progSummary=progs.map(p=>{const openT=(p.tasks||[]).filter(t=>!t.done).length;const doneT=(p.tasks||[]).filter(t=>t.done).length;return `- ${p.name} (${p.fullName}): Status=${p.status}, ${doneT} done, ${openT} open${p.metrics&&p.metrics.reactionary?" score="+p.metrics.reactionary:""}`;}).join("\n");
         const winSum=wins.slice(0,10).map(b=>`- ${b.win}: ${b.impact}`).join("\n")||"See brag sheet";
-        const teamSum=(S.team||[]).map(m=>{const k=(m.kudos||[]).join("; ");const c=(m.concerns||[]).join("; ");return `- ${m.name}${m.role?" ("+m.role+")":""}${k?" | Kudos: "+k:""}${c?" | Concerns: "+c:""}`;}).join("\n");
-        const metSum=`SF182: vol=${m.sf182&&m.sf182.volume||"N/A"}, approval=${m.sf182&&m.sf182.approvalRate||"N/A"}%, Training completion=${m.training&&m.training.completion||"N/A"}%, SLP reactive=${m.slp&&m.slp.reactionary||"N/A"}/5, ASLP reactive=${m.aslp&&m.aslp.reactionary||"N/A"}/5`;
+        const teamSum=(S.team||[]).map(m=>{const k=(m.kudos||[]).join("; ");return `- ${m.name}${m.role?" ("+m.role+")":""}${k?" | Kudos: "+k:""}`;}).join("\n");
+        const metSum=`SF182: vol=${m.sf182&&m.sf182.volume||"N/A"}, approval=${m.sf182&&m.sf182.approvalRate||"N/A"}%, Training completion=${m.training&&m.training.completion||"N/A"}%, ASLP pilot=8.8/10 (13 participants), SUTS Session1=9.1/10 (81/100 participants)`;
         const issues=(S.issues||[]).filter(i=>i.status!=="Closed"&&i.status!=="Resolved").map(i=>`- [${i.area}] ${i.issue}: ${i.status}`).join("\n")||"No open issues";
-        const prompt=`${FY_CONTEXT}\n\nQuarter: ${S.u.repQ||"Q2 (Jan-Mar)"} FY26\nToday: ${TD}\n\nAdditional context from supervisor: ${S.u.repCtx||"None"}\n\n=== DATA ===\n\nPROGRAM STATUS:\n${progSummary}\n\nCOMPLETED TASKS:\n${completedTasks}\n\nOPEN HIGH-PRIORITY TASKS:\n${openHigh}\n\nKEY WINS & ACCOMPLISHMENTS:\n${winSum}\n\nTEAM SNAPSHOT:\n${teamSum}\n\nMETRICS:\n${metSum}\n\nOPEN ISSUES:\n${issues}\n\n=== REPORT REQUEST ===\nWrite a professional leadership-ready quarterly performance update memo. Use this structure:\n1. EXECUTIVE SUMMARY (2-3 sentences)\n2. KEY ACCOMPLISHMENTS (bulleted, impact-focused)\n3. PROGRAM STATUS UPDATE (table-style summary)\n4. METRICS SNAPSHOT\n5. ISSUES & RISKS\n6. NEXT QUARTER PRIORITIES (top 5)\n\nBe concise, results-oriented, and use federal HR conventions. Write as if reporting to senior leadership (CHCO/DCHCO level).`;
+        const prompt=`${FY_CONTEXT}\n\nQuarter: ${S.u.repQ||"Q2 (Jan-Mar)"} FY26\nToday: ${TD}\n\nAdditional context: ${S.u.repCtx||"None"}\n\nPROGRAMS:\n${progSummary}\n\nCOMPLETED TASKS:\n${completedTasks}\n\nOPEN HIGH-PRIORITY:\n${openHigh}\n\nKEY WINS:\n${winSum}\n\nTEAM:\n${teamSum}\n\nMETRICS:\n${metSum}\n\nOPEN ISSUES:\n${issues}\n\nWrite a professional quarterly performance update memo for senior leadership (CHCO/DCHCO level):\n1. EXECUTIVE SUMMARY (2-3 sentences)\n2. KEY ACCOMPLISHMENTS (bulleted, impact-focused)\n3. PROGRAM STATUS UPDATE\n4. METRICS SNAPSHOT\n5. ISSUES & RISKS\n6. NEXT QUARTER PRIORITIES (top 5)\n\nBe concise, results-oriented, federal HR conventions.`;
         const resp=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,messages:[{role:"user",content:prompt}]})});
         const data=await resp.json();
         const txt=data.content&&data.content[0]&&data.content[0].text||"Error generating report.";
         S.u.repOut=txt;outDiv.innerHTML="";
-        const copyBtn=$("📋 Copy",()=>{navigator.clipboard.writeText(txt);copyBtn.textContent="Copied! ✓";setTimeout(()=>copyBtn.textContent="📋 Copy",2000);},"Bs Bo");
-        outDiv.appendChild(h("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"6px"}},[h("div",{style:{fontWeight:"700",fontSize:"13px",color:P}},["📄 Report – "+S.u.repQ+" FY26"]),copyBtn]));
+        const copyBtn=$("📋 Copy",()=>{navigator.clipboard.writeText(txt);copyBtn.textContent="Copied!";setTimeout(()=>copyBtn.textContent="📋 Copy",2000);},"Bs Bo");
+        outDiv.appendChild(h("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"6px"}},[h("div",{style:{fontWeight:"700",fontSize:"13px",color:P}},["📄 "+S.u.repQ+" FY26"]),copyBtn]));
         outDiv.appendChild(h("div",{class:"ai-out"},[txt]));
       }catch(err){outDiv.innerHTML='<div style="color:#e74c3c;padding:12px">Error: '+err.message+'</div>';}
       genBtn.disabled=false;genBtn.textContent="🔄 Regenerate";
     },"B Bp");
-    const c=C([]);
-    c.appendChild(H("📄 Quarterly Leadership Report"));
-    c.appendChild(h("div",{class:"g2",style:{marginBottom:"10px"}},[FL("Quarter",qSel),FL("Extra Context (optional)",addCtx)]));
-    c.appendChild(genBtn);c.appendChild(outDiv);
-    w.appendChild(c);
+    const c=C([]);c.appendChild(H("📄 Quarterly Leadership Report"));
+    c.appendChild(h("div",{class:"g2",style:{marginBottom:"10px"}},[FL("Quarter",qSel),FL("Extra Context",addCtx)]));
+    c.appendChild(genBtn);c.appendChild(outDiv);w.appendChild(c);
   } else {
-    // Performance Reviews
     const members=S.team||[];
-    if(!members.length){w.appendChild(C([h("div",{style:{textAlign:"center",color:"#aaa",padding:"24px"}},["No team members yet – add them in the Team tab."])]));return;}
+    if(!members.length){w.appendChild(C([h("div",{style:{textAlign:"center",color:"#aaa",padding:"24px"}},["No team members yet."])]));return;}
     const memberNames=members.map(m=>m.name);
     const mSel=sl(S.u.repMember||memberNames[0],v=>{S.u.repMember=v;S.u.revOut="";R();},memberNames);
     const typeSel=sl(S.u.repType||"quarterly",v=>{S.u.repType=v;S.u.revOut="";R();},["quarterly","mid-year","annual"]);
-    const focusTa=ta(S.u.revFocus||"",v=>S.u.revFocus=v,"Add specific accomplishments, projects, or context to include...",3);
+    const focusTa=ta(S.u.revFocus||"",v=>S.u.revFocus=v,"Add specific accomplishments, projects, or context...",3);
     const outDiv2=h("div",{id:"rev-out"});
     if(S.u.revOut)outDiv2.appendChild(h("div",{class:"ai-out"},[S.u.revOut]));
     const genBtn2=$("🤖 Generate Performance Review",async()=>{
       genBtn2.disabled=true;genBtn2.textContent="Writing review…";
-      outDiv2.innerHTML='<div style="color:#888;font-size:12px;padding:12px;text-align:center">Consulting the Guide for '+(S.u.repMember||memberNames[0])+'… ♾️</div>';
+      outDiv2.innerHTML='<div style="color:#888;font-size:12px;padding:12px;text-align:center">Consulting the Guide… ♾️</div>';
       try{
         const mName=S.u.repMember||memberNames[0];
         const member=members.find(m=>m.name===mName)||members[0];
         const kudos=(member.kudos||[]).join("\n- ")||"None logged";
         const concerns=(member.concerns||[]).join("\n- ")||"None logged";
         const tasks=(member.tasks||[]).map(t=>`- ${t.title} [${t.done?"Done":"Open"}]${t.dueDate?" due "+t.dueDate:""}`).join("\n")||"No tasks logged";
-        const oneOnes=(member.oneOnes||[]).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5).map(o=>`${o.date}${o.agenda?" ("+o.agenda+")":""}: ${o.notes||"(no notes)"}`).join("\n")||"None logged";
+        const oneOnes=(member.oneOnes||[]).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5).map(o=>`${o.date}${o.agenda?" ("+o.agenda+")":""}: ${o.notes||""}`).join("\n")||"None logged";
         const notes=(member.notes||[]).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5).map(n=>`[${n.date}${n.tag?" "+n.tag:""}] ${n.text}`).join("\n")||"None logged";
-        const prompt=`${FY_CONTEXT}\n\nReview type: ${S.u.repType||"quarterly"}\nEmployee: ${mName}${member.role?" ("+member.role+")":""}\nDate: ${TD}\n\nAdditional context from supervisor: ${S.u.revFocus||"None provided"}\n\n=== EMPLOYEE DATA ===\n\nKUDOS & ACCOMPLISHMENTS:\n- ${kudos}\n\nCONCERNS / DEVELOPMENT AREAS:\n- ${concerns}\n\nASSIGNED TASKS:\n${tasks}\n\n1:1 NOTES (recent):\n${oneOnes}\n\nOTHER NOTES:\n${notes}\n\n=== REVIEW REQUEST ===\nWrite a ${S.u.repType||"quarterly"} performance review narrative for ${mName}. Use federal HR conventions and results-oriented language. Structure as:\n1. OVERALL PERFORMANCE SUMMARY (2-3 sentences)\n2. KEY ACCOMPLISHMENTS (specific, impact-focused examples)\n3. DEMONSTRATION OF CRITICAL ELEMENTS (accountability, collaboration, communication, results)\n4. AREAS FOR CONTINUED DEVELOPMENT (framed constructively)\n5. SUPERVISOR COMMENTS & NEXT STEPS\n\nBe specific where data allows. Frame accomplishments with impact to EPA's mission and performance management goals. Keep to a professional, balanced tone suitable for an official federal record.`;
+        const prompt=`${FY_CONTEXT}\n\nReview type: ${S.u.repType||"quarterly"}\nEmployee: ${mName}${member.role?" ("+member.role+")":""}\nDate: ${TD}\n\nAdditional context: ${S.u.revFocus||"None"}\n\nKUDOS:\n- ${kudos}\n\nCONCERNS:\n- ${concerns}\n\nTASKS:\n${tasks}\n\n1:1 NOTES:\n${oneOnes}\n\nNOTES:\n${notes}\n\nWrite a ${S.u.repType||"quarterly"} performance review for ${mName}. Federal HR conventions, results-oriented. Structure:\n1. OVERALL PERFORMANCE SUMMARY\n2. KEY ACCOMPLISHMENTS\n3. CRITICAL ELEMENTS DEMONSTRATION\n4. AREAS FOR CONTINUED DEVELOPMENT\n5. SUPERVISOR COMMENTS & NEXT STEPS\n\nSpecific, impact-focused, professional federal record tone.`;
         const resp=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,messages:[{role:"user",content:prompt}]})});
         const data=await resp.json();
-        const txt=data.content&&data.content[0]&&data.content[0].text||"Error generating review.";
+        const txt=data.content&&data.content[0]&&data.content[0].text||"Error.";
         S.u.revOut=txt;outDiv2.innerHTML="";
-        const copyBtn=$("📋 Copy",()=>{navigator.clipboard.writeText(txt);copyBtn.textContent="Copied! ✓";setTimeout(()=>copyBtn.textContent="📋 Copy",2000);},"Bs Bo");
-        outDiv2.appendChild(h("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"6px"}},[h("div",{style:{fontWeight:"700",fontSize:"13px",color:P}},["👤 "+mName+" – "+(S.u.repType||"quarterly").toUpperCase()+" REVIEW"]),copyBtn]));
+        const copyBtn=$("📋 Copy",()=>{navigator.clipboard.writeText(txt);copyBtn.textContent="Copied!";setTimeout(()=>copyBtn.textContent="📋 Copy",2000);},"Bs Bo");
+        outDiv2.appendChild(h("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"6px"}},[h("div",{style:{fontWeight:"700",fontSize:"13px",color:P}},["👤 "+mName+" – "+(S.u.repType||"quarterly").toUpperCase()]),copyBtn]));
         outDiv2.appendChild(h("div",{class:"ai-out"},[txt]));
       }catch(err){outDiv2.innerHTML='<div style="color:#e74c3c;padding:12px">Error: '+err.message+'</div>';}
       genBtn2.disabled=false;genBtn2.textContent="🔄 Regenerate";
     },"B Bp");
-    const c=C([]);
-    c.appendChild(H("👥 Performance Review Generator"));
-    c.appendChild(h("div",{style:{background:"#F8F6FF",borderRadius:"8px",padding:"10px",marginBottom:"10px",fontSize:"12px",color:"#555"}},[h("div",{style:{fontWeight:"700",marginBottom:"4px",color:P}},["💡 How it works"]),h("div",{},["The AI reads the selected team member's kudos, concerns, tasks, 1:1 notes, and your additional context to generate a federal-style performance review narrative. Add more data in the Team tab for richer output."])]));
+    const c=C([]);c.appendChild(H("👥 Performance Review Generator"));
+    c.appendChild(h("div",{style:{background:"#F8F6FF",borderRadius:"8px",padding:"10px",marginBottom:"10px",fontSize:"12px",color:"#555"}},[h("div",{style:{fontWeight:"700",marginBottom:"4px",color:P}},["💡 How it works"]),h("div",{},["Reads kudos, concerns, tasks, 1:1 notes, and your context to generate a federal-style review. Add more data in the Team tab for richer output."])]));
     c.appendChild(h("div",{class:"g2",style:{marginBottom:"8px"}},[FL("Team Member",mSel),FL("Review Type",typeSel)]));
-    c.appendChild(FL("Context / Highlights to Include",focusTa));
+    c.appendChild(FL("Context / Highlights",focusTa));
     c.appendChild(h("div",{style:{marginTop:"10px"}},[genBtn2]));
-    c.appendChild(outDiv2);
-    w.appendChild(c);
+    c.appendChild(outDiv2);w.appendChild(c);
   }
 }
 
 // ─── SETTINGS ─────────────────────────────────────────────────────────────────
 function rSettings(w){
   w.appendChild(H("🔧 Config"));
-  w.appendChild(C([h("div",{style:{fontWeight:"700",marginBottom:"8px"}},["🔒 Change Password"]),$("Change Password",()=>{const f={a:"",b:""};const er=h("div",{style:{color:"#e74c3c",fontSize:"12px"}});let _b=false;const s=$("Set Password",async()=>{if(_b)return;if(f.a.length<6){er.textContent="Min 6 chars.";return;}if(f.a!==f.b){er.textContent="Don't match.";return;}_b=true;S.pw=await hashPw(f.a);sv();m.remove();alert("✅ Password updated.");},"B Bp",{width:"100%",marginTop:"8px"});const m=ml("Change Password",h("div",{style:{display:"flex",flexDirection:"column",gap:"10px"}},[FL("New Password",ip("password","",v=>f.a=v)),FL("Confirm",ip("password","",v=>f.b=v)),er,s]));},"B Bo")]));
+  w.appendChild(C([h("div",{style:{fontWeight:"700",marginBottom:"8px"}},["🔒 Password"]),$("Change Password",()=>{const f={a:"",b:""};const er=h("div",{style:{color:"#e74c3c",fontSize:"12px"}});let _b=false;const s=$("Set",async()=>{if(_b)return;if(f.a.length<6){er.textContent="Min 6 chars.";return;}if(f.a!==f.b){er.textContent="Don't match.";return;}_b=true;S.pw=await hashPw(f.a);sv();m.remove();alert("✅ Updated.");},"B Bp",{width:"100%",marginTop:"8px"});const m=ml("Change Password",h("div",{style:{display:"flex",flexDirection:"column",gap:"10px"}},[FL("New Password",ip("password","",v=>f.a=v)),FL("Confirm",ip("password","",v=>f.b=v)),er,s]));},"B Bo")]));
   const dc=C([]);
   dc.appendChild(h("div",{style:{fontWeight:"700",marginBottom:"8px"}},["📦 Export / Import"]));
-  dc.appendChild(h("p",{style:{fontSize:"12px",color:"#555",marginBottom:"10px"}},["Export backs up all data. Import merges by ID without overwriting existing items."]));
+  dc.appendChild(h("p",{style:{fontSize:"12px",color:"#555",marginBottom:"10px"}},["Export backs up all data. Import merges by ID."]));
   dc.appendChild($("⬇️ Export",()=>{const d={};KS.forEach(k=>d[k]=S[k]);d.exportDate=new Date().toISOString();const a=document.createElement("a");a.href="data:application/json,"+encodeURIComponent(JSON.stringify(d,null,2));a.download="iid-"+TD+".json";a.click();},"B Bp",{marginRight:"8px"}));
   const fi=h("input",{type:"file",style:{display:"none"}});
   fi.onchange=e=>{const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);function merge(ex,inc){if(!Array.isArray(inc))return ex||[];const map=new Map((ex||[]).map(x=>[x.id,x]));(inc||[]).forEach(x=>{if(x.id&&!map.has(x.id))map.set(x.id,x);});return Array.from(map.values());}
-  S.tasks=merge(S.tasks,d.tasks);S.rec=merge(S.rec,d.rec);S.brag=merge(S.brag,d.brag);S.issues=merge(S.issues,d.issues);S.contacts=merge(S.contacts,d.contacts);S.approvals=merge(S.approvals,d.approvals);S.systems=merge(S.systems,d.systems);
+  S.tasks=merge(S.tasks,d.tasks);S.rec=merge(S.rec,d.rec);S.brag=merge(S.brag,d.brag);S.issues=merge(S.issues,d.issues);S.contacts=merge(S.contacts,d.contacts);S.approvals=merge(S.approvals,d.approvals);S.systems=merge(S.systems,d.systems);S.training=merge(S.training,d.training);
   if(Array.isArray(d.team))d.team.forEach(im=>{const em=(S.team||[]).find(x=>x.id===im.id);if(em){em.tasks=merge(em.tasks,im.tasks);em.kudos=merge(em.kudos,im.kudos);em.concerns=merge(em.concerns,im.concerns);em.notes=merge(em.notes,im.notes);em.oneOnes=merge(em.oneOnes,im.oneOnes);}else{if(!S.team)S.team=[];S.team.push(im);}});
   if(Array.isArray(d.programs))d.programs.forEach(ip=>{const ep=(S.programs||[]).find(x=>x.id===ip.id);if(ep){ep.tasks=merge(ep.tasks,ip.tasks);ep.notes=merge(ep.notes,ip.notes);}else{if(!S.programs)S.programs=[];S.programs.push(ip);}});
   sv();R();alert("✅ Import complete!");}catch(err){alert("❌ Import failed: "+err.message);}};r.readAsText(file);fi.value="";};
   dc.appendChild($("⬆️ Import",()=>fi.click(),"B Bg"));dc.appendChild(fi);
-  dc.appendChild(h("div",{style:{marginTop:"10px",fontSize:"12px",color:"#888"}},["Tasks: "+(S.tasks||[]).length+" · Issues: "+(S.issues||[]).length+" · Programs: "+(S.programs||[]).length+" · Team: "+(S.team||[]).length]));
+  dc.appendChild(h("div",{style:{marginTop:"10px",fontSize:"12px",color:"#888"}},["Tasks: "+(S.tasks||[]).length+" · Issues: "+(S.issues||[]).length+" · Programs: "+(S.programs||[]).length+" · Team: "+(S.team||[]).length+" · Training events: "+(S.training||[]).length]));
   w.appendChild(dc);
-  const dz=C([]);
-  dz.appendChild(h("div",{style:{fontWeight:"700",marginBottom:"8px",color:"#e74c3c"}},["⚠️ Danger Zone"]));
-  dz.appendChild($("Reset to Defaults",()=>{if(confirm("Reset ALL data to defaults? This cannot be undone.")){KS.forEach(k=>localStorage.removeItem("iid_"+k));S.tasks=null;S.rec=null;S.team=null;S.programs=null;S.issues=null;S.contacts=null;S.metrics=null;S.brag=null;S.approvals=[];S.systems=null;ld().then(()=>R());}},"B Bd",{marginRight:"8px"}));
+  const dz=C([]);dz.appendChild(h("div",{style:{fontWeight:"700",marginBottom:"8px",color:"#e74c3c"}},["⚠️ Danger Zone"]));
+  dz.appendChild($("Reset to Defaults",()=>{if(confirm("Reset ALL data to defaults?")){KS.forEach(k=>localStorage.removeItem("iid_"+k));Object.assign(S,{tasks:null,rec:null,team:null,programs:null,issues:null,contacts:null,metrics:null,brag:null,approvals:[],systems:null,training:null});ld().then(()=>R());}},"B Bd",{marginRight:"8px"}));
   dz.appendChild($("Clear All Tasks",()=>{if(confirm("Clear all tasks?")){S.tasks=[];sv();R();}},"Bs Bd"));
   w.appendChild(dz);
 }
-
-// ─── Init ──────────────────────────────────────────────────────────────────────
 ld().then(()=>R());
 </script></body></html>
